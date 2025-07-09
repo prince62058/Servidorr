@@ -1,0 +1,117 @@
+# Servidorr - Service Booking Platform
+
+## Overview
+
+Servidorr is a frontend-focused service booking platform that connects users with trusted professionals for various services including salon, cleaning, repairs, and more. The application is built as a static website with modern web technologies, focusing on user experience through smooth animations and intuitive navigation.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+### Frontend Architecture
+- **Static HTML/CSS/JavaScript**: Single-page application built with vanilla JavaScript
+- **Bootstrap 5**: CSS framework for responsive design and UI components
+- **Animation Libraries**: AOS (Animate On Scroll) for scroll-triggered animations
+- **Font Integration**: Google Fonts (Inter and Poppins) and Font Awesome icons
+- **Responsive Design**: Mobile-first approach with viewport meta tags
+
+### Technology Stack
+- **HTML5**: Semantic markup with proper meta tags and accessibility considerations
+- **CSS3**: Custom properties (CSS variables) for consistent theming
+- **Vanilla JavaScript**: ES6+ features for modern JavaScript functionality
+- **Bootstrap 5**: Component library for rapid UI development
+- **External Libraries**: AOS for animations, Font Awesome for icons
+
+## Key Components
+
+### 1. Navigation System
+- Fixed navigation bar with scroll effects
+- Active link highlighting
+- Smooth scrolling between sections
+- Mobile-responsive hamburger menu
+
+### 2. Animation Engine
+- **Scroll Animations**: Intersection Observer API for performance
+- **Hover Effects**: Interactive elements with CSS transitions
+- **Parallax Effects**: Depth and movement on scroll
+- **Counter Animations**: Number counting effects
+- **Morphing Shapes**: Dynamic visual elements
+- **Stagger Animations**: Sequential element animations
+- **Page Transitions**: Smooth navigation between sections
+
+### 3. Service Booking Features
+- Service filtering and categorization
+- Booking form with validation
+- Contact form functionality
+- Service tabs for different categories
+- Countdown timers for promotions
+
+### 4. User Experience Elements
+- Loading screen with spinner
+- Back-to-top button
+- Floating elements for visual interest
+- Reveal animations for content disclosure
+
+## Data Flow
+
+### Client-Side Flow
+1. **Page Load**: Loading screen displays while assets load
+2. **Navigation**: User clicks navigation links triggering smooth scroll
+3. **Service Selection**: Users browse and filter available services
+4. **Booking Process**: Form validation and submission handling
+5. **Visual Feedback**: Animations provide user interaction feedback
+
+### Animation Flow
+1. **Scroll Detection**: Intersection Observer monitors element visibility
+2. **Animation Trigger**: CSS classes applied based on scroll position
+3. **Stagger Effects**: Sequential animations for grouped elements
+4. **Completion Callbacks**: Post-animation cleanup and state management
+
+## External Dependencies
+
+### CDN Resources
+- **Bootstrap 5.3.0**: CSS framework for responsive design
+- **Font Awesome 6.4.0**: Icon library for UI elements
+- **Google Fonts**: Inter and Poppins font families
+- **AOS 2.3.1**: Animate On Scroll library
+
+### Performance Considerations
+- Preconnect hints for Google Fonts
+- Optimized loading order for CSS and JavaScript
+- Lazy loading for non-critical animations
+
+## Deployment Strategy
+
+### Static Hosting
+- **Architecture**: Client-side only, no server-side processing
+- **Requirements**: Any static web server (CDN, GitHub Pages, Netlify, etc.)
+- **Assets**: All resources loaded from CDN for faster delivery
+- **Caching**: Browser caching for static assets
+
+### Build Process
+- **No Build Step**: Direct deployment of source files
+- **Optimization**: Manual CSS/JS minification recommended for production
+- **SEO**: Meta tags and semantic HTML for search engine optimization
+
+### Scalability Considerations
+- **Backend Integration**: Ready for API integration when booking functionality is implemented
+- **Database**: Structure supports future integration with booking and user management systems
+- **Authentication**: Frontend prepared for user authentication flows
+
+## Development Notes
+
+### Code Organization
+- **Modular JavaScript**: Separate files for main functionality and animations
+- **CSS Architecture**: Custom properties for consistent theming
+- **Component Structure**: Reusable UI patterns throughout the application
+
+### Future Enhancements
+- Backend API integration for real booking functionality
+- User authentication and profile management
+- Payment processing integration
+- Real-time availability checking
+- Service provider dashboard
+
+The application is designed to be easily extended with backend services while maintaining the current user experience and animation system.

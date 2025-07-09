@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidorr - Seamless Services, Delivered Instantly</title>
+    <meta name="description" content="Book trusted professionals for salon, cleaning, repairs, and more with ease.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading Services...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-tools"></i>
+                <span>Servidorr</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary ms-2" href="#booking">Book Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-bg-image"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="hero-title">
+                        <span class="text-primary">Seamless Services,</span><br>
+                        Delivered Instantly
+                    </h1>
+                    <p class="hero-subtitle">
+                        Book trusted professionals for salon, cleaning, repairs, and more with ease.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-search"></i> Browse Services
+                        </a>
+                        <a href="#booking" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-calendar"></i> Book Now
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Professionals</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="hero-image">
+                        <img src="https://pixabay.com/get/g9d00fd51549e77ec6ed6683ab81b594e2249f78e71135c42532e764464f56844fecd4a65075ff4570a5283d39e3fe87056c524c0de71b66f086870e01ff6dfa2_1280.jpg" alt="Professional Services" class="img-fluid rounded-4 shadow-lg">
+                        <div class="floating-card floating-card-1">
+                            <i class="fas fa-wrench"></i>
+                            <span>Expert Repairs</span>
+                        </div>
+                        <div class="floating-card floating-card-2">
+                            <i class="fas fa-broom"></i>
+                            <span>Deep Cleaning</span>
+                        </div>
+                        <div class="floating-card floating-card-3">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Professional Painting</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Categories -->
+    <section id="services" class="service-categories py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title">Explore Service Categories</h2>
+                        <p class="section-subtitle">Choose from our wide range of professional services</p>
+                        <div class="section-divider"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Filter -->
+            <div class="row mb-4">
+                <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-filter text-center">
+                        <button class="filter-btn active" data-filter="all">All Services</button>
+                        <button class="filter-btn" data-filter="home">Home Services</button>
+                        <button class="filter-btn" data-filter="beauty">Beauty & Wellness</button>
+                        <button class="filter-btn" data-filter="repair">Repairs</button>
+                        <button class="filter-btn" data-filter="cleaning">Cleaning</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row service-grid">
+                <!-- Plumbing Services -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="repair" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/g177f228300257cc86ba72ac4ac86e8daf87104a09de19851aca2a500bf87d73034ac61bef269b2e41066fbe97a260b428dd6081723ee743872d58eabba77cd30_1280.jpg" alt="Plumbing Services">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-wrench"></i>
+                            </div>
+                            <h3 class="service-title">Plumbing Services</h3>
+                            <p class="service-description">Expert plumbers to fix leaks, blockages, and installations.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.9 (234 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$49</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Electrical Services -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="repair" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/gd3efe11018a9965971b204f67e8a978b9a92d3a23d409afa8a77edca54f252d256026b304f6f91e507bc6fa2353c939127a6587fd3e251242fa13014f58705da_1280.jpg" alt="Electrical Services">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="service-title">Electrical Services</h3>
+                            <p class="service-description">Certified electricians for repairs and installations.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.8 (189 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$65</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Home Cleaning -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="cleaning" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/ga3cbd74c091e4d3090440748c174b3466241d99db6e5239e4f9f4fe046ae6ea6e42062ce442f9e20bfbd4f67f7976c1b9dd75458cfaf7be5bd426bd5706bac58_1280.jpg" alt="Home Cleaning">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-broom"></i>
+                            </div>
+                            <h3 class="service-title">Home Cleaning</h3>
+                            <p class="service-description">Professional cleaning services for homes and offices.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.9 (312 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$35</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Beauty & Wellness -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="beauty" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/gf359aea2ac41da5d1db83f048277b11b88cfe795fc6ae3a270ae89d33d150289feded1e40c0452ff351a1afacf1aa008f35e005e5c78bfdcc0675146da81dcdf_1280.jpg" alt="Beauty & Wellness">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <h3 class="service-title">Beauty & Wellness</h3>
+                            <p class="service-description">Beauty treatments including haircuts, facials, and massages.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.8 (267 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$25</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carpentry Services -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="home" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/gfbc6184c315ad47f7e8e79ee7b5f058caba26747044b3e2c017ea8c163620c84cf0da5366a9d759d30430f266875ce931f63cbed209ee51a55efc1d9098ad665_1280.jpg" alt="Carpentry Services">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <h3 class="service-title">Carpentry Services</h3>
+                            <p class="service-description">Custom carpentry solutions for furniture repair and installation.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.7 (156 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$55</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pest Control -->
+                <div class="col-lg-4 col-md-6 mb-4 service-item" data-category="home" data-aos="fade-up" data-aos-delay="700">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://pixabay.com/get/g86f733bcebf74c9f54629ae53d15017206710122b50d1e94ad63617cb316c2fd65ec34512fcee588d7d8a73b5e2ebd48cd5cea603d2c7b77722ab36976478bea_1280.jpg" alt="Pest Control">
+                            <div class="service-overlay">
+                                <a href="#" class="service-btn">Book Now</a>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h3 class="service-title">Pest Control</h3>
+                            <p class="service-description">Effective pest control for homes and offices.</p>
+                            <div class="service-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-text">4.6 (98 reviews)</span>
+                            </div>
+                            <div class="service-price">Starting from <span class="price">$75</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="800">
+                    <a href="#" class="btn btn-primary btn-lg">View All Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotional Banner -->
+    <section class="promotional-banner py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="promo-content">
+                        <div class="promo-badge">Limited Time Offer</div>
+                        <h2 class="promo-title">30% Off All Services!</h2>
+                        <p class="promo-description">Don't miss this exclusive offer. Book your services today and save big!</p>
+                        <div class="countdown-timer" id="countdownTimer">
+                            <div class="timer-item">
+                                <span class="timer-value" id="days">27</span>
+                                <span class="timer-label">Days</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value" id="hours">23</span>
+                                <span class="timer-label">Hours</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value" id="minutes">59</span>
+                                <span class="timer-label">Minutes</span>
+                            </div>
+                            <div class="timer-item">
+                                <span class="timer-value" id="seconds">58</span>
+                                <span class="timer-label">Seconds</span>
+                            </div>
+                        </div>
+                        <a href="#booking" class="btn btn-primary btn-lg promo-btn">
+                            <i class="fas fa-calendar"></i> Book Now & Save 30%
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="promo-image">
+                        <img src="https://pixabay.com/get/gef335254174fcc20cb2d0eefbc1dc631a3f3be08e25c4f6965be02aa2fe149aad3c26ad54fcd741735d99a3e981f6f4f_1280.jpg" alt="30% Discount Offer" class="img-fluid rounded-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Services -->
+    <section class="premium-services py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title">Our Premium Services</h2>
+                        <p class="section-subtitle">Professional services with guaranteed satisfaction</p>
+                        <div class="section-divider"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Tabs -->
+            <div class="row">
+                <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+                    <ul class="nav nav-tabs service-tabs justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#cleaning-services">
+                                <i class="fas fa-broom"></i> Cleaning Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#plumbing-services">
+                                <i class="fas fa-wrench"></i> Plumbing Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#electrical-services">
+                                <i class="fas fa-bolt"></i> Electrical Services
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Service Tab Content -->
+            <div class="tab-content mt-5">
+                <!-- Cleaning Services -->
+                <div class="tab-pane fade show active" id="cleaning-services">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g2b08bf006cfb48863b718520c5db9c647d0334d0e8f37b238c38a7e35c5ff3f8efec7c60e7fd01c033e1d1231f5935a5cabc043d74daa5481a1755950d5584d5_1280.jpg" alt="Full Home Cleaning">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Full Home Cleaning</h4>
+                                    <p>Complete house cleaning service</p>
+                                    <div class="service-price">$89</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/ga364250bf82f2209c95a472530d574f5d62b1736288741a14cbbed8be68b95e5fed688d2ae3055fd5b3728fa0da5f35c3db188c1207e471516bac307da53c5a6_1280.jpg" alt="Bathroom Cleaning">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Bathroom Deep Clean</h4>
+                                    <p>Thorough bathroom sanitization</p>
+                                    <div class="service-price">$45</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/gd9dd2de7194b0cd263830d00f5421ba14bdf03c34c6b8909f4c88c5aa6dccebec752c5505488d4b091420a1c9dc3596c8b609a70eb89914c23a4a9ebc0b9c520_1280.jpg" alt="Kitchen Cleaning">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Kitchen Deep Clean</h4>
+                                    <p>Complete kitchen sanitization</p>
+                                    <div class="service-price">$65</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/ge55d7f891a0fca861a7fb5f78b8e1c5d40dc479a00ef0a4fc2e9eb3a51b282c4f0b79554eb7324cc0cdfa169f4b63b5acf2b376f215de2e041d2037826e58d9e_1280.jpg" alt="Sofa Cleaning">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Sofa Shampooing</h4>
+                                    <p>Professional upholstery cleaning</p>
+                                    <div class="service-price">$55</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Plumbing Services -->
+                <div class="tab-pane fade" id="plumbing-services">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g18e8f01be80f22feb287ef2431c8306ddbbdf87087deb7e58702bfce48c1e78e052d4994a4a4a32922a6d5ccbecf54bd6b27f2f680856f216a4ff639cd736ffb_1280.jpg" alt="Leaky Faucet Repair">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Leaky Faucet Repair</h4>
+                                    <p>Quick faucet repair service</p>
+                                    <div class="service-price">$35</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g1f54e3fcce15b973121f2baa1ac155a43a44f1752dd6067644a4581af7a083f54f542c7c6080dfc6122fc8304c1b8c50a6a1a9e958eca164ff584008234a1347_1280.jpg" alt="Water Heater">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Water Heater Repair</h4>
+                                    <p>Professional water heater service</p>
+                                    <div class="service-price">$85</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g177f228300257cc86ba72ac4ac86e8daf87104a09de19851aca2a500bf87d73034ac61bef269b2e41066fbe97a260b428dd6081723ee743872d58eabba77cd30_1280.jpg" alt="Pipe Installation">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Pipe Installation</h4>
+                                    <p>New pipe installation service</p>
+                                    <div class="service-price">$120</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g18e8f01be80f22feb287ef2431c8306ddbbdf87087deb7e58702bfce48c1e78e052d4994a4a4a32922a6d5ccbecf54bd6b27f2f680856f216a4ff639cd736ffb_1280.jpg" alt="Drain Cleaning">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Drain Cleaning</h4>
+                                    <p>Professional drain unblocking</p>
+                                    <div class="service-price">$65</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Electrical Services -->
+                <div class="tab-pane fade" id="electrical-services">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g8c2ebe428df59debb63138313a0e0498b3f85e1e5fae0aa8603ec4d92801fdac4d9a0b231f89afc8fb24d17f6d87abf76249c59af07ce1287ee303bbf20e6e62_1280.jpg" alt="Fan Installation">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Fan Installation</h4>
+                                    <p>Ceiling fan installation service</p>
+                                    <div class="service-price">$75</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g4e1de93e300fa18ad58476ffb73597af9849e8874ffbc309a67f6a15d5f9c13796d2c13a833205c0967df015517a63ba37bf69d376e1d01843b29961a8937c3c_1280.jpg" alt="Switchboard Repair">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Switchboard Repair</h4>
+                                    <p>Electrical panel maintenance</p>
+                                    <div class="service-price">$95</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/gd3efe11018a9965971b204f67e8a978b9a92d3a23d409afa8a77edca54f252d256026b304f6f91e507bc6fa2353c939127a6587fd3e251242fa13014f58705da_1280.jpg" alt="Wiring Installation">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Wiring Installation</h4>
+                                    <p>Complete electrical wiring</p>
+                                    <div class="service-price">$150</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                            <div class="premium-service-card">
+                                <div class="service-image">
+                                    <img src="https://pixabay.com/get/g8c2ebe428df59debb63138313a0e0498b3f85e1e5fae0aa8603ec4d92801fdac4d9a0b231f89afc8fb24d17f6d87abf76249c59af07ce1287ee303bbf20e6e62_1280.jpg" alt="Light Fixture">
+                                </div>
+                                <div class="service-content">
+                                    <h4>Light Fixture Setup</h4>
+                                    <p>Professional lighting installation</p>
+                                    <div class="service-price">$65</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-content">
+                        <h2 class="section-title">Why Choose Servidorr?</h2>
+                        <p class="section-subtitle">We connect you with trusted professionals for all your service needs</p>
+                        
+                        <div class="about-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Trusted Professionals</h4>
+                                    <p>All our service providers are vetted and verified for quality assurance</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>24/7 Support</h4>
+                                    <p>Round-the-clock customer support for all your service needs</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Competitive Pricing</h4>
+                                    <p>Get the best value for your money with transparent pricing</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-image">
+                        <img src="https://pixabay.com/get/g89f2d4d1b1a18a07fec39459ecbc2b747bbdd7cf6f9bd511cc7ccd5583e52bf7ef9ae005e5786387d7381996b1b2bda2a4d940e402d733faa330468e29badbd1_1280.jpg" alt="About Servidorr" class="img-fluid rounded-4">
+                        <div class="about-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">Customer Satisfaction</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">Services Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title">Book Your Service</h2>
+                        <p class="section-subtitle">Easy and quick booking process</p>
+                        <div class="section-divider"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="booking-form-wrapper" data-aos="fade-up" data-aos-delay="200">
+                        <form class="booking-form" id="bookingForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="service-category" class="form-label">Service Category</label>
+                                    <select class="form-select" id="service-category" required>
+                                        <option value="">Select a service category</option>
+                                        <option value="plumbing">Plumbing Services</option>
+                                        <option value="electrical">Electrical Services</option>
+                                        <option value="cleaning">Home Cleaning</option>
+                                        <option value="beauty">Beauty & Wellness</option>
+                                        <option value="carpentry">Carpentry Services</option>
+                                        <option value="pest">Pest Control</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="service-type" class="form-label">Specific Service</label>
+                                    <select class="form-select" id="service-type" required>
+                                        <option value="">Select specific service</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="booking-date" class="form-label">Preferred Date</label>
+                                    <input type="date" class="form-control" id="booking-date" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="booking-time" class="form-label">Preferred Time</label>
+                                    <select class="form-select" id="booking-time" required>
+                                        <option value="">Select time slot</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="customer-name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="customer-name" required>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="customer-phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="customer-phone" required>
+                                </div>
+                                
+                                <div class="col-12 mb-3">
+                                    <label for="customer-address" class="form-label">Service Address</label>
+                                    <textarea class="form-control" id="customer-address" rows="3" required></textarea>
+                                </div>
+                                
+                                <div class="col-12 mb-3">
+                                    <label for="special-instructions" class="form-label">Special Instructions (Optional)</label>
+                                    <textarea class="form-control" id="special-instructions" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-calendar-check"></i> Book Service Now
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title">Get In Touch</h2>
+                        <p class="section-subtitle">We're here to help with all your service needs</p>
+                        <div class="section-divider"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Our Location</h4>
+                                <p>123 Service Street<br>City, State 12345</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Call Us</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-content">
+                                <h4>Email Us</h4>
+                                <p>info@servidorr.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="400">
+                    <div class="contact-form-wrapper">
+                        <form class="contact-form" id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control" placeholder="Your Email" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <input type="text" class="form-control" placeholder="Subject" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand">
+                        <h3><i class="fas fa-tools"></i> Servidorr</h3>
+                        <p>Your trusted partner for all home service needs. We connect you with verified professionals for quality service delivery.</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Beauty</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@servidorr.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Service Street</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 Servidorr. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="scripts/main.js"></script>
+    <script src="scripts/animations.js"></script>
+</body>
+</html>
