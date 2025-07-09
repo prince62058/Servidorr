@@ -18,13 +18,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeScrollAnimations();
     initializeHoverEffects();
     initializeParallaxEffects();
-    initializeCounterAnimations();
-    initializeProgressAnimations();
     initializeMorphingShapes();
     initializeStaggerAnimations();
     initializeRevealAnimations();
     initializeFloatingElements();
     initializePageTransitions();
+    initializeTextAnimations();
+    initializeMouseParallax();
+    initializeSpecificAnimations();
+    initializeLoadingAnimations();
+    initializeCardFlips();
+    initializeSmoothTransitions();
+    initializeScrollBasedAnimations();
+    initializeCounterAnimations();
     
     // Scroll-triggered animations
     function initializeScrollAnimations() {
@@ -229,6 +235,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             element.textContent = Math.floor(current);
         }, 16);
+    }
+    
+    // Initialize counter animations
+    function initializeCounterAnimations() {
+        const counters = document.querySelectorAll('.counter, .stat-number');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
     }
     
     // Progress bar animations
@@ -452,7 +476,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Scroll-based animations
+    // Scroll-based animations (duplicate removed in favor of the one below)
+    
+    // Initialize all remaining animations
+    initializeTextAnimations();
+    initializeMouseParallax();
+    initializeSpecificAnimations();
+    initializeLoadingAnimations();
+    initializeCardFlips();
+    initializeSmoothTransitions();
+    initializeScrollBasedAnimations();
+    
+    // Initialize animation functions
     function initializeScrollBasedAnimations() {
         let lastScrollY = window.pageYOffset;
         
@@ -473,15 +508,6 @@ document.addEventListener('DOMContentLoaded', function() {
             lastScrollY = currentScrollY;
         });
     }
-    
-    // Initialize all animations
-    initializeTextAnimations();
-    initializeMouseParallax();
-    initializeSpecificAnimations();
-    initializeLoadingAnimations();
-    initializeCardFlips();
-    initializeSmoothTransitions();
-    initializeScrollBasedAnimations();
     
     // Performance optimization
     function optimizeAnimations() {
