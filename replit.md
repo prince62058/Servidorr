@@ -23,6 +23,8 @@ Preferred communication style: Simple, everyday language.
 - **Vanilla JavaScript**: ES6+ features for modern JavaScript functionality
 - **Bootstrap 5**: Component library for rapid UI development
 - **External Libraries**: AOS for animations, Font Awesome for icons
+- **Database**: PostgreSQL database with Drizzle ORM for data persistence
+- **Backend Ready**: Database schema and storage layer prepared for full-stack functionality
 
 ## Key Components
 
@@ -77,10 +79,16 @@ Preferred communication style: Simple, everyday language.
 - **Google Fonts**: Inter and Poppins font families
 - **AOS 2.3.1**: Animate On Scroll library
 
+### Database Dependencies
+- **PostgreSQL**: Primary database for data storage
+- **Drizzle ORM**: Modern TypeScript ORM for database operations
+- **@neondatabase/serverless**: Database driver for serverless PostgreSQL connections
+
 ### Performance Considerations
 - Preconnect hints for Google Fonts
 - Optimized loading order for CSS and JavaScript
 - Lazy loading for non-critical animations
+- Database connection pooling for efficient data access
 
 ## Deployment Strategy
 
@@ -95,10 +103,17 @@ Preferred communication style: Simple, everyday language.
 - **Optimization**: Manual CSS/JS minification recommended for production
 - **SEO**: Meta tags and semantic HTML for search engine optimization
 
+### Database Integration
+- **PostgreSQL Database**: Fully configured with environment variables
+- **Schema Design**: Complete database schema for users, services, bookings, service providers, and contact inquiries
+- **Storage Layer**: TypeScript storage interface with database operations
+- **Sample Data**: Pre-populated with service categories and pricing information
+
 ### Scalability Considerations
-- **Backend Integration**: Ready for API integration when booking functionality is implemented
-- **Database**: Structure supports future integration with booking and user management systems
+- **Backend Integration**: Database and storage layer ready for API integration
+- **Database**: Full database schema implemented with proper relationships
 - **Authentication**: Frontend prepared for user authentication flows
+- **Real-time Features**: Database structure supports booking management and user interactions
 
 ## Development Notes
 
