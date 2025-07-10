@@ -355,6 +355,11 @@ body {
   box-shadow: var(--shadow-xl);
 }
 
+.animated-character {
+  animation: float 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
 .floating-card {
   position: absolute;
   background: var(--white);
