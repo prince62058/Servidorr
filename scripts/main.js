@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!loadingScreen) return;
         
-        // Show loading screen for minimum 3 seconds like UrbanCompany
+        // Show loading screen for minimum 1 second for better UX
         let pageLoaded = false;
         let minTimeElapsed = false;
         
@@ -437,30 +437,30 @@ document.addEventListener('DOMContentLoaded', function() {
             hideLoadingScreenIfReady();
         });
         
-        // Ensure loading screen shows for at least 3 seconds
+        // Ensure loading screen shows for at least 1 second
         setTimeout(() => {
             minTimeElapsed = true;
             hideLoadingScreenIfReady();
-        }, 3000);
+        }, 1000);
         
         function hideLoadingScreenIfReady() {
             if (pageLoaded && minTimeElapsed) {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
-                }, 500);
+                }, 300);
             }
         }
         
-        // Fallback: hide loading screen after maximum 5 seconds regardless
+        // Fallback: hide loading screen after maximum 2 seconds regardless
         setTimeout(() => {
             if (loadingScreen.style.display !== 'none') {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
-                }, 500);
+                }, 300);
             }
-        }, 5000);
+        }, 2000);
     }
     
     // Parallax effect functionality
