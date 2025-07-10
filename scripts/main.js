@@ -434,8 +434,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 500);
-            }, 1000);
+            }, 500); // Reduced from 1000ms to 500ms for faster loading
         });
+        
+        // Fallback: hide loading screen after maximum 3 seconds regardless
+        setTimeout(() => {
+            if (loadingScreen.style.display !== 'none') {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        }, 3000);
+        
+        // Fallback: hide loading screen after maximum 3 seconds regardless
+        setTimeout(() => {
+            if (loadingScreen.style.display !== 'none') {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        }, 3000);
     }
     
     // Parallax effect functionality
