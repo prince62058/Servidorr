@@ -547,6 +547,13 @@ body {
 
 .service-content {
   padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-content .btn {
+  margin-top: auto;
 }
 
 .service-icon {
