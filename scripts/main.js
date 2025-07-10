@@ -427,25 +427,30 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!loadingScreen) return;
         
-        // Hide loading screen after page load
+        // Show loading screen for minimum 2 seconds to see spinner animation
+        let pageLoaded = false;
+        let minTimeElapsed = false;
+        
+        // Mark page as loaded
         window.addEventListener('load', function() {
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 500); // Reduced from 1000ms to 500ms for faster loading
+            pageLoaded = true;
+            hideLoadingScreenIfReady();
         });
         
-        // Fallback: hide loading screen after maximum 3 seconds regardless
+        // Ensure loading screen shows for at least 2 seconds
         setTimeout(() => {
-            if (loadingScreen.style.display !== 'none') {
+            minTimeElapsed = true;
+            hideLoadingScreenIfReady();
+        }, 2000);
+        
+        function hideLoadingScreenIfReady() {
+            if (pageLoaded && minTimeElapsed) {
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 500);
             }
-        }, 3000);
+        }
         
         // Fallback: hide loading screen after maximum 3 seconds regardless
         setTimeout(() => {
