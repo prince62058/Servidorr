@@ -3,7 +3,7 @@
   "out": "./drizzle",
   "dialect": "postgresql",
   "dbCredentials": {
-    "url": "${DATABASE_URL}"
+    "url": "postgresql://neondb_owner:npg_Bnh8gUtPmcX2@ep-round-breeze-a2mmt9im.eu-central-1.aws.neon.tech/neondb?sslmode=require"
   },
   "verbose": true,
   "strict": true

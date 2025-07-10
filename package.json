@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
+    "@types/node": "^24.0.12",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.2",
