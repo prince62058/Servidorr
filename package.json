@@ -14,7 +14,7 @@
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.4.0",
     "@types/memoizee": "^0.4.12",
-    "@types/node": "^24.0.12",
+    "@types/node": "^24.0.13",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.2",
