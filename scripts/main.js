@@ -73,25 +73,76 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroVideo = document.getElementById('heroVideo');
         
         if (heroVideo) {
-            // Try autoplay first
-            const playPromise = heroVideo.play();
+            const debugInfo = document.getElementById('videoDebug');
             
-            if (playPromise !== undefined) {
-                playPromise
+            // Debug function
+            const updateDebugInfo = (message) => {
+                if (debugInfo) {
+                    debugInfo.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+                }
+                console.log('Video Debug:', message);
+            };
+            
+            // Set video properties explicitly
+            heroVideo.muted = true;
+            heroVideo.autoplay = true;
+            heroVideo.loop = true;
+            heroVideo.playsInline = true;
+            heroVideo.controls = false;
+            
+            updateDebugInfo('Video initialized with properties');
+            
+            // Video event listeners
+            heroVideo.addEventListener('loadstart', () => updateDebugInfo('Load started'));
+            heroVideo.addEventListener('loadedmetadata', () => updateDebugInfo('Metadata loaded'));
+            heroVideo.addEventListener('loadeddata', () => updateDebugInfo('Data loaded'));
+            heroVideo.addEventListener('canplay', () => updateDebugInfo('Can play'));
+            heroVideo.addEventListener('canplaythrough', () => updateDebugInfo('Can play through'));
+            heroVideo.addEventListener('playing', () => updateDebugInfo('Playing'));
+            heroVideo.addEventListener('pause', () => updateDebugInfo('Paused'));
+            heroVideo.addEventListener('ended', () => updateDebugInfo('Ended'));
+            heroVideo.addEventListener('error', (e) => updateDebugInfo(`Error: ${e.message}`));
+            
+            // Force video to play
+            const forcePlay = () => {
+                updateDebugInfo('Attempting to play video');
+                heroVideo.play()
                     .then(() => {
-                        // Autoplay succeeded
-                        console.log('Hero video autoplay successful');
+                        updateDebugInfo('Video playing successfully!');
+                        // Hide debug info after successful play
+                        setTimeout(() => {
+                            if (debugInfo) debugInfo.style.display = 'none';
+                        }, 3000);
                     })
                     .catch((error) => {
-                        // Autoplay failed - try again on user interaction
-                        console.log('Video autoplay failed:', error);
-                        document.addEventListener('click', function() {
-                            heroVideo.play().catch(() => {
-                                console.log('Manual play also failed');
+                        updateDebugInfo(`Play failed: ${error.message}`);
+                        // Try again on user interaction
+                        const playOnInteraction = () => {
+                            heroVideo.play().then(() => {
+                                updateDebugInfo('Play successful after user interaction');
                             });
-                        }, { once: true });
+                        };
+                        document.addEventListener('click', playOnInteraction, { once: true });
+                        document.addEventListener('touchstart', playOnInteraction, { once: true });
                     });
+            };
+            
+            // Try to play when ready
+            if (heroVideo.readyState >= 3) {
+                forcePlay();
+            } else {
+                heroVideo.addEventListener('canplay', forcePlay, { once: true });
             }
+            
+            // Fallback: Force load and play
+            setTimeout(() => {
+                if (heroVideo.paused) {
+                    updateDebugInfo('Video still paused, forcing load and play');
+                    heroVideo.load();
+                    setTimeout(forcePlay, 500);
+                }
+            }, 2000);
+        }
             
             // Handle video events
             heroVideo.addEventListener('loadeddata', function() {
