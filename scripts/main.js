@@ -143,6 +143,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 2000);
         }
+            
+            // Handle video events
+            heroVideo.addEventListener('loadeddata', function() {
+                console.log('Hero video loaded successfully');
+            });
+            
+            heroVideo.addEventListener('canplay', function() {
+                console.log('Hero video can start playing');
+            });
+            
+            heroVideo.addEventListener('error', function(e) {
+                console.log('Hero video error:', e);
+                // Hide video container if video fails to load
+                const videoContainer = document.querySelector('.hero-video-container');
+                if (videoContainer) {
+                    videoContainer.style.display = 'none';
+                }
+            });
+            
+            // Force play attempt after page load
+            setTimeout(() => {
+                if (heroVideo.paused) {
+                    heroVideo.play().catch(() => {
+                        console.log('Delayed autoplay also failed');
+                    });
+                }
+            }, 1000);
+        }
         
         const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
         
