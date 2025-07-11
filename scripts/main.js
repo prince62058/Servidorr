@@ -73,13 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroVideo = document.getElementById('heroVideo');
         
         if (heroVideo) {
-            const debugInfo = document.getElementById('videoDebug');
-            
             // Debug function
             const updateDebugInfo = (message) => {
-                if (debugInfo) {
-                    debugInfo.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
-                }
                 console.log('Video Debug:', message);
             };
             
@@ -109,10 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 heroVideo.play()
                     .then(() => {
                         updateDebugInfo('Video playing successfully!');
-                        // Hide debug info after successful play
-                        setTimeout(() => {
-                            if (debugInfo) debugInfo.style.display = 'none';
-                        }, 3000);
                     })
                     .catch((error) => {
                         updateDebugInfo(`Play failed: ${error.message}`);
