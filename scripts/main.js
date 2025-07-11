@@ -73,9 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroVideo = document.getElementById('heroVideo');
         
         if (heroVideo) {
-            const playOverlay = document.getElementById('videoPlayOverlay');
-            const playBtn = document.getElementById('videoPlayBtn');
-            
             // Try autoplay first
             const playPromise = heroVideo.play();
             
@@ -84,28 +81,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(() => {
                         // Autoplay succeeded
                         console.log('Hero video autoplay successful');
-                        if (playOverlay) {
-                            playOverlay.classList.add('hidden');
-                        }
                     })
                     .catch((error) => {
-                        // Autoplay failed - show play button
+                        // Autoplay failed - try again on user interaction
                         console.log('Video autoplay failed:', error);
-                        if (playOverlay) {
-                            playOverlay.classList.remove('hidden');
-                        }
+                        document.addEventListener('click', function() {
+                            heroVideo.play().catch(() => {
+                                console.log('Manual play also failed');
+                            });
+                        }, { once: true });
                     });
-            }
-            
-            // Handle play button click
-            if (playBtn) {
-                playBtn.addEventListener('click', function() {
-                    heroVideo.play().then(() => {
-                        if (playOverlay) {
-                            playOverlay.classList.add('hidden');
-                        }
-                    });
-                });
             }
             
             // Handle video events
