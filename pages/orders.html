@@ -147,24 +147,35 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to cancel this order?</p>
-                    <div class="form-group">
-                        <label>Reason for cancellation:</label>
-                        <select id="cancelReason" class="form-control">
+                    <div class="form-group mb-3">
+                        <label class="form-label">Reason for cancellation: <span class="text-danger">*</span></label>
+                        <select id="cancelReason" class="form-select">
                             <option value="">Select a reason</option>
                             <option value="changed-mind">Changed my mind</option>
                             <option value="found-better-deal">Found a better deal</option>
                             <option value="schedule-conflict">Schedule conflict</option>
+                            <option value="service-delay">Service provider delayed</option>
+                            <option value="emergency">Emergency situation</option>
                             <option value="other">Other</option>
                         </select>
+                        <div class="invalid-feedback" id="cancelReasonError"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Additional comments (optional):</label>
-                        <textarea id="cancelComments" class="form-control" rows="3"></textarea>
+                    <div class="form-group mb-3">
+                        <label class="form-label">Additional comments (optional):</label>
+                        <textarea id="cancelComments" class="form-control" rows="3" placeholder="Please provide any additional details about the cancellation..."></textarea>
+                    </div>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Note:</strong> Once cancelled, this order cannot be restored. You'll need to place a new order if you want the service again.
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Order</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">Cancel Order</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Keep Order
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmCancelBtn" onclick="confirmCancelOrder()">
+                        <i class="fas fa-ban me-2"></i>Cancel Order
+                    </button>
                 </div>
             </div>
         </div>

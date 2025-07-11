@@ -327,7 +327,55 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.cancelOrder = function(orderId) {
+        const order = allOrders.find(o => o.id === orderId);
+        if (!order) {
+            showNotification('Order not found', 'error');
+            return;
+        }
+
+        // Check if order can be cancelled
+        if (!['pending', 'confirmed'].includes(order.status)) {
+            showNotification('This order cannot be cancelled at this time', 'error');
+            return;
+        }
+
         window.currentOrderToCancel = orderId;
+        
+        // Update modal title with order details
+        const modalTitle = document.querySelector('#cancelOrderModal .modal-title');
+        modalTitle.textContent = `Cancel Order - ${order.service.name}`;
+        
+        // Add order info to modal body
+        const modalBody = document.querySelector('#cancelOrderModal .modal-body');
+        const orderInfo = modalBody.querySelector('.order-info') || document.createElement('div');
+        orderInfo.className = 'order-info mb-3 p-3 bg-light rounded';
+        orderInfo.innerHTML = `
+            <h6>Order Details</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Order ID:</strong> ${order.id}<br>
+                    <strong>Service:</strong> ${order.service.name}<br>
+                    <strong>Amount:</strong> ₹${order.amount}
+                </div>
+                <div class="col-md-6">
+                    <strong>Date:</strong> ${formatDate(order.booking.date)}<br>
+                    <strong>Time:</strong> ${formatTime(order.booking.time)}<br>
+                    <strong>Status:</strong> ${formatStatus(order.status)}
+                </div>
+            </div>
+        `;
+        
+        // Insert order info at the beginning of modal body
+        if (!modalBody.querySelector('.order-info')) {
+            modalBody.insertBefore(orderInfo, modalBody.firstChild);
+        }
+        
+        // Clear previous form data
+        document.getElementById('cancelReason').value = '';
+        document.getElementById('cancelComments').value = '';
+        document.getElementById('cancelReason').classList.remove('is-invalid');
+        document.getElementById('cancelReasonError').textContent = '';
+        
         const modal = new bootstrap.Modal(document.getElementById('cancelOrderModal'));
         modal.show();
     };
@@ -336,36 +384,69 @@ document.addEventListener('DOMContentLoaded', function() {
         const orderId = window.currentOrderToCancel;
         const reason = document.getElementById('cancelReason').value;
         const comments = document.getElementById('cancelComments').value;
+        const reasonSelect = document.getElementById('cancelReason');
+        const errorDiv = document.getElementById('cancelReasonError');
+        const confirmBtn = document.getElementById('confirmCancelBtn');
+
+        // Clear previous errors
+        reasonSelect.classList.remove('is-invalid');
+        errorDiv.textContent = '';
 
         if (!reason) {
-            showNotification('Please select a reason for cancellation', 'error');
+            reasonSelect.classList.add('is-invalid');
+            errorDiv.textContent = 'Please select a reason for cancellation';
+            reasonSelect.focus();
             return;
         }
 
-        // Update order status
-        const orderIndex = allOrders.findIndex(o => o.id === orderId);
-        if (orderIndex !== -1) {
-            allOrders[orderIndex].status = 'cancelled';
-            allOrders[orderIndex].cancelReason = reason;
-            allOrders[orderIndex].cancelComments = comments;
-            allOrders[orderIndex].cancelledAt = new Date().toISOString();
+        // Show loading state
+        const originalText = confirmBtn.innerHTML;
+        confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        confirmBtn.disabled = true;
 
-            // Update localStorage
-            localStorage.setItem('bookings', JSON.stringify(allOrders));
+        // Simulate processing delay for better UX
+        setTimeout(() => {
+            // Update order status
+            const orderIndex = allOrders.findIndex(o => o.id === orderId);
+            if (orderIndex !== -1) {
+                const order = allOrders[orderIndex];
+                const serviceName = order.service.name;
+                
+                allOrders[orderIndex].status = 'cancelled';
+                allOrders[orderIndex].cancelReason = reason;
+                allOrders[orderIndex].cancelComments = comments;
+                allOrders[orderIndex].cancelledAt = new Date().toISOString();
 
-            // Refresh display
-            filterAndDisplayOrders();
+                // Update localStorage
+                localStorage.setItem('bookings', JSON.stringify(allOrders));
 
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
-            modal.hide();
+                // Refresh display
+                filterAndDisplayOrders();
 
-            // Clear form
-            document.getElementById('cancelReason').value = '';
-            document.getElementById('cancelComments').value = '';
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+                modal.hide();
 
-            showNotification('Order cancelled successfully', 'success');
-        }
+                // Clear form
+                document.getElementById('cancelReason').value = '';
+                document.getElementById('cancelComments').value = '';
+
+                // Reset button state
+                confirmBtn.innerHTML = originalText;
+                confirmBtn.disabled = false;
+
+                // Show success notification with order details
+                showNotification(`Order for "${serviceName}" has been cancelled successfully. A confirmation email has been sent.`, 'success');
+                
+                // Optional: Show cancellation details in console for debugging
+                console.log('Order cancelled:', {
+                    orderId: orderId,
+                    reason: reason,
+                    comments: comments,
+                    cancelledAt: new Date().toISOString()
+                });
+            }
+        }, 1000);
     };
 
     window.reorderService = function(orderId) {
@@ -414,22 +495,105 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.custom-notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
         const notification = document.createElement('div');
-        notification.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
-        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.className = `custom-notification alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = `
+            top: 20px; 
+            right: 20px; 
+            z-index: 9999; 
+            min-width: 350px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideInFromRight 0.3s ease;
+        `;
+        
+        const iconMap = {
+            'success': 'fas fa-check-circle',
+            'error': 'fas fa-exclamation-circle',
+            'info': 'fas fa-info-circle'
+        };
+        
         notification.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="d-flex align-items-center">
+                <i class="${iconMap[type] || iconMap['info']} me-3"></i>
+                <div class="flex-grow-1">${message}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         `;
         
         document.body.appendChild(notification);
         
+        // Auto-remove after 5 seconds
         setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
+            if (notification.parentElement) {
+                notification.style.animation = 'slideOutToRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
             }
         }, 5000);
     }
+    
+    // Add CSS animations for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOutToRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+        
+        .custom-notification {
+            animation: slideInFromRight 0.3s ease;
+        }
+        
+        .order-info {
+            border-left: 4px solid #007bff;
+        }
+        
+        .order-info h6 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-danger:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .invalid-feedback {
+            display: block;
+        }
+        
+        .form-select.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .form-select.is-invalid:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+    `;
+    document.head.appendChild(style);
 
     console.log('Orders page initialized successfully!');
 });
