@@ -69,6 +69,73 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Hero section functionality
     function initializeHero() {
+        // Initialize hero video
+        const heroVideo = document.getElementById('heroVideo');
+        
+        if (heroVideo) {
+            const playOverlay = document.getElementById('videoPlayOverlay');
+            const playBtn = document.getElementById('videoPlayBtn');
+            
+            // Try autoplay first
+            const playPromise = heroVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        // Autoplay succeeded
+                        console.log('Hero video autoplay successful');
+                        if (playOverlay) {
+                            playOverlay.classList.add('hidden');
+                        }
+                    })
+                    .catch((error) => {
+                        // Autoplay failed - show play button
+                        console.log('Video autoplay failed:', error);
+                        if (playOverlay) {
+                            playOverlay.classList.remove('hidden');
+                        }
+                    });
+            }
+            
+            // Handle play button click
+            if (playBtn) {
+                playBtn.addEventListener('click', function() {
+                    heroVideo.play().then(() => {
+                        if (playOverlay) {
+                            playOverlay.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+            
+            // Handle video events
+            heroVideo.addEventListener('loadeddata', function() {
+                console.log('Hero video loaded successfully');
+            });
+            
+            heroVideo.addEventListener('canplay', function() {
+                console.log('Hero video can start playing');
+            });
+            
+            heroVideo.addEventListener('error', function(e) {
+                console.log('Hero video error:', e);
+                // Hide video container if video fails to load
+                const videoContainer = document.querySelector('.hero-video-container');
+                if (videoContainer) {
+                    videoContainer.style.display = 'none';
+                }
+            });
+            
+            // Force play attempt after page load
+            setTimeout(() => {
+                if (heroVideo.paused) {
+                    heroVideo.play().catch(() => {
+                        console.log('Delayed autoplay also failed');
+                    });
+                }
+            }, 1000);
+        }
+        
         const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
         
         if (heroScrollIndicator) {
