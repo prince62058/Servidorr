@@ -83,14 +83,14 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 5,
-                name: 'Full Home Cleaning',
-                description: 'Deep cleaning of the entire house, including floors and surfaces',
+                name: 'Kitchen Cleaning',
+                description: 'Deep cleaning of kitchen including appliances and surfaces',
                 price: 100,
                 rating: 4.9,
                 reviews: 120,
-                image: 'https://www.balajicleaningagency.com/img/service/Untitled-02.jpg',
+                image: '../assets/services/kitchen_cleaning.jpg',
                 category: 'cleaning',
-                features: ['Eco-friendly products', 'All rooms covered', 'Bathroom deep clean', 'Kitchen sanitization'],
+                features: ['Eco-friendly products', 'Appliance cleaning', 'Deep sanitization', 'Grease removal'],
                 duration: '3-4 hours'
             },
             {
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 75,
                 rating: 4.8,
                 reviews: 95,
-                image: '../assets/services/toilet_seat_image.png',
+                image: '../assets/services/bathroom_cleaning.jpg',
                 category: 'cleaning',
                 features: ['Tile cleaning', 'Fixture polishing', 'Drain cleaning', 'Sanitization'],
                 duration: '2-3 hours'
@@ -236,6 +236,126 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: 'repair',
                 features: ['Screen replacement', 'Software issues', 'Hardware repair', 'Data recovery'],
                 duration: '1-3 hours'
+            },
+            {
+                id: 18,
+                name: 'AC Gas Filling',
+                description: 'Refill gas in air conditioning units for optimal cooling',
+                price: 120,
+                rating: 4.5,
+                reviews: 75,
+                image: '../assets/services/ac_gas_filling.jpg',
+                category: 'repair',
+                features: ['Gas level check', 'Leak detection', 'Quality refrigerant', 'Performance testing'],
+                duration: '1-2 hours'
+            },
+            {
+                id: 19,
+                name: 'Curtain Cleaning',
+                description: 'Professional cleaning of curtains and drapes',
+                price: 80,
+                rating: 4.6,
+                reviews: 60,
+                image: '../assets/services/curtain_cleaning.jpg',
+                category: 'cleaning',
+                features: ['Fabric care', 'Stain removal', 'Fresh fragrance', 'Dry cleaning option'],
+                duration: '2-3 hours'
+            },
+            {
+                id: 20,
+                name: 'Doorbell Installation',
+                description: 'Install and configure smart doorbells',
+                price: 90,
+                rating: 4.7,
+                reviews: 45,
+                image: '../assets/services/doorbell_installation.jpg',
+                category: 'home',
+                features: ['Smart connectivity', 'Video recording', 'Mobile alerts', 'Wiring setup'],
+                duration: '1-2 hours'
+            },
+            {
+                id: 21,
+                name: 'Geyser Repair',
+                description: 'Repair and maintenance of water heating systems',
+                price: 80,
+                rating: 4.5,
+                reviews: 90,
+                image: '../assets/services/geyser_repair.jpg',
+                category: 'repair',
+                features: ['Element replacement', 'Thermostat check', 'Safety valve repair', 'Temperature calibration'],
+                duration: '1-2 hours'
+            },
+            {
+                id: 22,
+                name: 'Inverter Installation',
+                description: 'Install and configure home power inverters',
+                price: 200,
+                rating: 4.8,
+                reviews: 55,
+                image: '../assets/services/inverter_installation.jpg',
+                category: 'home',
+                features: ['Battery connection', 'Load calculation', 'Safety wiring', 'Testing included'],
+                duration: '3-4 hours'
+            },
+            {
+                id: 23,
+                name: 'Mattress Cleaning',
+                description: 'Deep cleaning and sanitization of mattresses',
+                price: 90,
+                rating: 4.6,
+                reviews: 80,
+                image: '../assets/services/mattress_cleaning.jpg',
+                category: 'cleaning',
+                features: ['Dust mite removal', 'Stain cleaning', 'Sanitization', 'Odor elimination'],
+                duration: '2-3 hours'
+            },
+            {
+                id: 24,
+                name: 'Microwave Repair',
+                description: 'Repair and service microwave ovens',
+                price: 85,
+                rating: 4.4,
+                reviews: 65,
+                image: '../assets/services/microwave_repair.jpg',
+                category: 'repair',
+                features: ['Component diagnosis', 'Magnetron repair', 'Door seal check', 'Safety testing'],
+                duration: '1-2 hours'
+            },
+            {
+                id: 25,
+                name: 'Sofa Shampooing',
+                description: 'Professional shampooing and cleaning of sofas',
+                price: 120,
+                rating: 4.7,
+                reviews: 95,
+                image: '../assets/services/sofa_shampooing.jpg',
+                category: 'cleaning',
+                features: ['Deep fabric cleaning', 'Stain removal', 'Quick drying', 'Fabric protection'],
+                duration: '2-4 hours'
+            },
+            {
+                id: 26,
+                name: 'Washing Machine Repair',
+                description: 'Repair and maintenance of washing machines',
+                price: 100,
+                rating: 4.6,
+                reviews: 110,
+                image: '../assets/services/washing_machine_repair.jpg',
+                category: 'repair',
+                features: ['Drum cleaning', 'Motor repair', 'Pipe checking', 'Performance optimization'],
+                duration: '2-3 hours'
+            },
+            {
+                id: 27,
+                name: 'Water Tank Cleaning',
+                description: 'Thorough cleaning and sanitization of water tanks',
+                price: 150,
+                rating: 4.8,
+                reviews: 70,
+                image: '../assets/services/water_tank_cleaning.jpg',
+                category: 'cleaning',
+                features: ['Complete drainage', 'Scrubbing & cleaning', 'Disinfection', 'Quality testing'],
+                duration: '3-5 hours'
             }
         ];
 
