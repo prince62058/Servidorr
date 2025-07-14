@@ -838,23 +838,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize user session check
     checkUserSession();
-                        } else if (titleLower.includes('clean')) {
-                            serviceCategorySelect.value = 'cleaning';
-                        } else if (titleLower.includes('beauty') || titleLower.includes('wellness')) {
-                            serviceCategorySelect.value = 'beauty';
-                        } else if (titleLower.includes('carpen')) {
-                            serviceCategorySelect.value = 'carpentry';
-                        } else if (titleLower.includes('pest')) {
-                            serviceCategorySelect.value = 'pest';
-                        }
-                        
-                        // Trigger change event to update service type options
-                        serviceCategorySelect.dispatchEvent(new Event('change'));
-                    }
-                }, 500);
-            }
-        });
-    });
     
     // Performance optimization: throttle scroll events
     function throttle(func, limit) {
