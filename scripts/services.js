@@ -435,8 +435,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.bookService = function(serviceId) {
         const service = serviceId ? allServices.find(s => s.id === serviceId) : window.currentServiceForBooking;
-        if (!service) return;
+        if (!service) {
+            console.error('No service found for booking');
+            return;
+        }
 
+        console.log('Booking service:', service);
+        
         // Store selected service in localStorage
         localStorage.setItem('selectedService', JSON.stringify(service));
         
