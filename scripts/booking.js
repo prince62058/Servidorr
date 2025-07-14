@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const preSelectedService = JSON.parse(localStorage.getItem('selectedService') || 'null');
     if (preSelectedService) {
         selectedService = preSelectedService;
-        currentStep = 2; // Skip to date/time selection
+        // Keep currentStep = 1 to collect customer details first
         localStorage.removeItem('selectedService'); // Clear after use
         console.log('Pre-selected service loaded:', selectedService);
     } else {

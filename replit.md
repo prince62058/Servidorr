@@ -200,6 +200,14 @@ The application is designed to be easily extended with backend services while ma
 - Enhanced animation speeds across entire website (AOS duration: 1000ms → 400ms, transitions: 0.6s → 0.4s, hover effects: 0.3s → 0.2s)
 - Improved animation easing with cubic-bezier for smoother, more responsive interactions
 
+**July 14, 2025 - Enhanced Customer Details in Orders:**
+- Fixed booking form to properly collect customer information (name, phone, address, notes)
+- Updated orders page to display customer details in order cards with styled layout
+- Enhanced order details modal to show complete customer information
+- Added customer name and phone number to order search functionality
+- Fixed issue where customer details were skipped when pre-selecting services
+- Added proper validation to ensure customer details are collected before proceeding
+
 **July 10, 2025 - Multi-Page Architecture & Real-time Booking Implementation:**
 - Transformed from single-page to multi-page architecture with separate pages for booking, services, profile, and orders
 - Created complete real-time booking system with 3-step process (service selection, date/time, payment)

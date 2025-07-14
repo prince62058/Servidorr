@@ -169,7 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchQuery) {
             filteredOrders = filteredOrders.filter(order =>
                 order.service.name.toLowerCase().includes(searchQuery) ||
-                order.id.toLowerCase().includes(searchQuery)
+                order.id.toLowerCase().includes(searchQuery) ||
+                (order.customer && order.customer.name && order.customer.name.toLowerCase().includes(searchQuery)) ||
+                (order.customer && order.customer.phone && order.customer.phone.includes(searchQuery))
             );
         }
 
@@ -293,23 +295,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
             
-            <div class="detail-section">
-                <h6>Customer Information</h6>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-label">Name</div>
-                        <div class="detail-value">${order.customer.name}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Phone</div>
-                        <div class="detail-value">${order.customer.phone}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Address</div>
-                        <div class="detail-value">${order.customer.address}</div>
+            ${order.customer && (order.customer.name || order.customer.phone || order.customer.address) ? `
+                <div class="detail-section">
+                    <h6>Customer Information</h6>
+                    <div class="detail-grid">
+                        ${order.customer.name ? `
+                            <div class="detail-item">
+                                <div class="detail-label">Name</div>
+                                <div class="detail-value">${order.customer.name}</div>
+                            </div>
+                        ` : ''}
+                        ${order.customer.phone ? `
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">${order.customer.phone}</div>
+                            </div>
+                        ` : ''}
+                        ${order.customer.address ? `
+                            <div class="detail-item">
+                                <div class="detail-label">Address</div>
+                                <div class="detail-value">${order.customer.address}</div>
+                            </div>
+                        ` : ''}
+                        ${order.customer.notes ? `
+                            <div class="detail-item">
+                                <div class="detail-label">Notes</div>
+                                <div class="detail-value">${order.customer.notes}</div>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
-            </div>
+            ` : ''}
             
             ${order.provider ? `
                 <div class="detail-section">
