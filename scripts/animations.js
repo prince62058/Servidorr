@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize AOS (Animate On Scroll)
     if (typeof AOS !== 'undefined') {
         AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
+            duration: 400,
+            easing: 'ease-out',
             once: true,
             mirror: false,
-            offset: 120,
+            offset: 80,
             delay: 0,
             anchorPlacement: 'top-bottom'
         });
@@ -100,34 +100,40 @@ document.addEventListener('DOMContentLoaded', function() {
         // Service cards hover effects
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.15)';
+                this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
 
                 // Animate service icon
                 const icon = this.querySelector('.service-icon');
                 if (icon) {
                     icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    icon.style.transition = 'transform 0.2s ease-out';
                 }
 
                 // Animate service image
                 const img = this.querySelector('.service-image img');
                 if (img) {
-                    img.style.transform = 'scale(1.1)';
+                    img.style.transform = 'scale(1.08)';
+                    img.style.transition = 'transform 0.2s ease-out';
                 }
             });
 
             card.addEventListener('mouseleave', function() {
                 this.style.transform = '';
                 this.style.boxShadow = '';
+                this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
 
                 const icon = this.querySelector('.service-icon');
                 if (icon) {
                     icon.style.transform = '';
+                    icon.style.transition = 'transform 0.2s ease-out';
                 }
 
                 const img = this.querySelector('.service-image img');
                 if (img) {
                     img.style.transform = '';
+                    img.style.transition = 'transform 0.2s ease-out';
                 }
             });
         });
@@ -137,11 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
             button.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
                 this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.2)';
+                this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
             });
 
             button.addEventListener('mouseleave', function() {
                 this.style.transform = '';
                 this.style.boxShadow = '';
+                this.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
             });
         });
 
@@ -568,48 +576,48 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Custom animation functions
-    function slideInFromLeft(element, duration = 1000) {
+    function slideInFromLeft(element, duration = 400) {
         element.style.transform = 'translateX(-100%)';
         element.style.opacity = '0';
-        element.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        element.style.transition = `transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${duration}ms ease`;
 
         setTimeout(() => {
             element.style.transform = 'translateX(0)';
             element.style.opacity = '1';
-        }, 100);
+        }, 50);
     }
 
-    function slideInFromRight(element, duration = 1000) {
+    function slideInFromRight(element, duration = 400) {
         element.style.transform = 'translateX(100%)';
         element.style.opacity = '0';
-        element.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        element.style.transition = `transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${duration}ms ease`;
 
         setTimeout(() => {
             element.style.transform = 'translateX(0)';
             element.style.opacity = '1';
-        }, 100);
+        }, 50);
     }
 
-    function fadeInUp(element, duration = 1000) {
-        element.style.transform = 'translateY(50px)';
+    function fadeInUp(element, duration = 400) {
+        element.style.transform = 'translateY(30px)';
         element.style.opacity = '0';
-        element.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        element.style.transition = `transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${duration}ms ease`;
 
         setTimeout(() => {
             element.style.transform = 'translateY(0)';
             element.style.opacity = '1';
-        }, 100);
+        }, 50);
     }
 
-    function scaleIn(element, duration = 1000) {
-        element.style.transform = 'scale(0.8)';
+    function scaleIn(element, duration = 400) {
+        element.style.transform = 'scale(0.9)';
         element.style.opacity = '0';
-        element.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        element.style.transition = `transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${duration}ms ease`;
 
         setTimeout(() => {
             element.style.transform = 'scale(1)';
             element.style.opacity = '1';
-        }, 100);
+        }, 50);
     }
 
     // Export animation functions for external use
@@ -635,7 +643,7 @@ function initializeCounterAnimations() {
 
     const animateCounter = (element) => {
         const target = parseInt(element.textContent.replace(/[^0-9]/g, '')) || 0;
-        const duration = 2000; // 2 seconds
+        const duration = 1000; // 1 second
         const increment = target / (duration / 16); // 60fps
         let current = 0;
 
@@ -691,7 +699,7 @@ const observer = new IntersectionObserver((entries) => {
                 children.forEach((child, index) => {
                     setTimeout(() => {
                         child.classList.add('animate');
-                    }, index * 100);
+                    }, index * 50);
                 });
             }
         }
