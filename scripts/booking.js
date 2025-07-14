@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedService = preSelectedService;
         currentStep = 2; // Skip to date/time selection
         localStorage.removeItem('selectedService'); // Clear after use
+        console.log('Pre-selected service loaded:', selectedService);
+    } else {
+        console.log('Using default service:', selectedService);
     }
 
     // Initialize booking form
@@ -558,25 +561,43 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function updateSelectedService() {
-        document.getElementById('serviceImage').src = selectedService.image;
-        document.getElementById('serviceName').textContent = selectedService.name;
-        document.getElementById('serviceDescription').textContent = selectedService.description;
-        document.getElementById('servicePrice').textContent = `₹${selectedService.price}`;
+        // Update service display elements
+        const serviceImage = document.getElementById('serviceImage');
+        const serviceName = document.getElementById('serviceName');
+        const serviceDescription = document.getElementById('serviceDescription');
+        const servicePrice = document.getElementById('servicePrice');
+        
+        if (serviceImage) serviceImage.src = selectedService.image;
+        if (serviceName) serviceName.textContent = selectedService.name;
+        if (serviceDescription) serviceDescription.textContent = selectedService.description;
+        if (servicePrice) servicePrice.textContent = `₹${selectedService.price}`;
+        
+        // Also update summary immediately
+        updateSummary();
+        
+        console.log('Updated service display for:', selectedService.name);
     }
 
     function updateSummary() {
-        document.getElementById('summaryService').textContent = selectedService.name;
-        document.getElementById('summaryTotal').textContent = `₹${selectedService.price}`;
+        const summaryService = document.getElementById('summaryService');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const summaryDate = document.getElementById('summaryDate');
+        const summaryTime = document.getElementById('summaryTime');
         
-        if (selectedDate) {
+        if (summaryService) summaryService.textContent = selectedService.name;
+        if (summaryTotal) summaryTotal.textContent = `₹${selectedService.price}`;
+        
+        if (selectedDate && summaryDate) {
             const date = new Date(selectedDate);
-            document.getElementById('summaryDate').textContent = date.toLocaleDateString('en-IN');
+            summaryDate.textContent = date.toLocaleDateString('en-IN');
         }
         
-        if (selectedTimeSlot) {
+        if (selectedTimeSlot && summaryTime) {
             const time = convertTo12Hour(selectedTimeSlot);
-            document.getElementById('summaryTime').textContent = time;
+            summaryTime.textContent = time;
         }
+        
+        console.log('Summary updated for service:', selectedService.name, 'Price:', selectedService.price);
     }
 
     function convertTo12Hour(time24) {
