@@ -228,6 +228,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="service-datetime">
                             <i class="fas fa-calendar"></i> ${formatDate(order.booking.date)} at ${formatTime(order.booking.time)}
                         </div>
+                        ${order.customer ? `
+                            <div class="customer-details">
+                                <i class="fas fa-user"></i> <strong>${order.customer.name}</strong>
+                                <div class="customer-info">
+                                    <div><i class="fas fa-phone"></i> ${order.customer.phone}</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> ${order.customer.address}</div>
+                                </div>
+                            </div>
+                        ` : ''}
                         ${order.provider ? `<div class="service-provider">Provider: ${order.provider.name}</div>` : ''}
                     </div>
                     <div class="order-amount">

@@ -122,6 +122,46 @@
     box-shadow: var(--shadow-xl);
 }
 
+/* Customer Details Styling */
+.customer-details {
+    margin-top: 0.75rem;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--primary-color);
+}
+
+.customer-details i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.customer-info {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.customer-info div {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+}
+
+.customer-info i {
+    margin-right: 0.5rem;
+    width: 16px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .customer-info {
+        font-size: 0.8rem;
+    }
+}
+
 .order-header {
     display: flex;
     justify-content: space-between;
