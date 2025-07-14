@@ -423,6 +423,34 @@
     margin-bottom: 1.5rem;
 }
 
+/* Empty State Styles */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--gray-600);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
+}
+
+.empty-state h4 {
+    color: var(--gray-700);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.empty-state .btn {
+    margin: 0.5rem;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .orders-filters {

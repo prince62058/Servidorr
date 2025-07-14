@@ -140,9 +140,66 @@ document.addEventListener('DOMContentLoaded', function() {
         const storedOrders = JSON.parse(localStorage.getItem('bookings') || '[]');
         console.log('Raw stored orders:', storedOrders);
         
-        // Start with empty orders array - no demo orders
-        allOrders = storedOrders;
+        // If no orders exist, create some demo orders for testing
+        if (storedOrders.length === 0) {
+            console.log('No orders found, creating demo orders...');
+            const demoOrders = [
+                {
+                    id: 'ORD-' + Date.now() + '-1',
+                    service: {
+                        name: 'AC Service & Repair',
+                        description: 'Professional AC cleaning and maintenance service',
+                        image: '../assets/services/ac_service.jpg'
+                    },
+                    customer: {
+                        name: 'John Doe',
+                        phone: '+91 9876543210',
+                        address: '123 Main Street, Delhi',
+                        notes: 'AC not cooling properly'
+                    },
+                    booking: {
+                        date: new Date().toISOString().split('T')[0],
+                        time: '10:00'
+                    },
+                    amount: 1500,
+                    status: 'confirmed',
+                    createdAt: new Date().toISOString(),
+                    paymentMethod: 'Online Payment',
+                    paymentStatus: 'Paid'
+                },
+                {
+                    id: 'ORD-' + Date.now() + '-2',
+                    service: {
+                        name: 'House Cleaning',
+                        description: 'Complete house cleaning service',
+                        image: '../assets/services/bathroom_cleaning.jpg'
+                    },
+                    customer: {
+                        name: 'Jane Smith',
+                        phone: '+91 9876543211',
+                        address: '456 Park Avenue, Mumbai',
+                        notes: 'Deep cleaning required'
+                    },
+                    booking: {
+                        date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        time: '14:00'
+                    },
+                    amount: 2500,
+                    status: 'pending',
+                    createdAt: new Date().toISOString(),
+                    paymentMethod: 'Cash on Delivery',
+                    paymentStatus: 'Pending'
+                }
+            ];
+            
+            localStorage.setItem('bookings', JSON.stringify(demoOrders));
+            allOrders = demoOrders;
+        } else {
+            allOrders = storedOrders;
+        }
+        
         console.log('Loaded orders count:', allOrders.length);
+        console.log('Sample order:', allOrders[0]);
 
         showClearOrdersButton();
         filterAndDisplayOrders();
@@ -204,12 +261,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (orders.length === 0) {
             console.log('No orders to display');
+            const isFiltered = currentFilter !== 'all' || document.getElementById('searchOrders').value.trim() !== '';
             ordersList.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-clipboard-list"></i>
-                    <h4>No orders found</h4>
-                    <p>You haven't placed any orders yet or no orders match your current filter.</p>
-                    <a href="services.html" class="btn btn-primary">Browse Services</a>
+                    <h4>${isFiltered ? 'No orders match your filter' : 'No orders found'}</h4>
+                    <p>${isFiltered ? 'Try changing your filter or search criteria.' : 'You haven\'t placed any orders yet.'}</p>
+                    ${isFiltered ? 
+                        `<button class="btn btn-outline-primary" onclick="clearFilters()">Clear Filters</button>` : 
+                        `<a href="services.html" class="btn btn-primary">Browse Services</a>`
+                    }
                 </div>
             `;
             return;
@@ -724,6 +785,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     };
     
+    // Global function to clear filters
+    window.clearFilters = function() {
+        currentFilter = 'all';
+        currentSort = 'newest';
+        
+        // Reset filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.dataset.filter === 'all') {
+                tab.classList.add('active');
+            }
+        });
+        
+        // Reset search and sort
+        document.getElementById('searchOrders').value = '';
+        document.getElementById('sortOrders').value = 'newest';
+        
+        // Refresh display
+        filterAndDisplayOrders();
+    };
+
     // Initialize user session check
     checkUserSession();
 
