@@ -134,11 +134,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.clearOldOrders = clearOldOrders;
 
     function loadOrders() {
+        console.log('Loading orders from localStorage...');
+        
         // Load orders from localStorage
         const storedOrders = JSON.parse(localStorage.getItem('bookings') || '[]');
+        console.log('Raw stored orders:', storedOrders);
         
         // Start with empty orders array - no demo orders
         allOrders = storedOrders;
+        console.log('Loaded orders count:', allOrders.length);
 
         showClearOrdersButton();
         filterAndDisplayOrders();
@@ -195,9 +199,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayOrders(orders) {
+        console.log('Displaying orders:', orders.length);
         const ordersList = document.getElementById('ordersList');
 
         if (orders.length === 0) {
+            console.log('No orders to display');
             ordersList.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-clipboard-list"></i>
@@ -208,12 +214,14 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             return;
         }
+        
+        console.log('Sample order data:', orders[0]);
 
         ordersList.innerHTML = orders.map(order => `
             <div class="order-card">
                 <div class="order-header">
                     <div class="order-info">
-                        <h4>${order.service.name}</h4>
+                        <h4>${order.service?.name || 'Service'}</h4>
                         <div class="order-id">Order ID: ${order.id}</div>
                         <div class="order-date">Ordered on ${formatDate(order.createdAt)}</div>
                     </div>
@@ -223,12 +231,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="order-content">
-                    <img src="${order.service.image}" alt="${order.service.name}" class="service-image">
+                    <img src="${order.service?.image || '../assets/default-service.png'}" alt="${order.service?.name || 'Service'}" class="service-image">
                     <div class="service-details">
-                        <h5>${order.service.name}</h5>
-                        <p>${order.service.description}</p>
+                        <h5>${order.service?.name || 'Service'}</h5>
+                        <p>${order.service?.description || 'Professional service'}</p>
                         <div class="service-datetime">
-                            <i class="fas fa-calendar"></i> ${formatDate(order.booking.date)} at ${formatTime(order.booking.time)}
+                            <i class="fas fa-calendar"></i> ${formatDate(order.booking?.date || order.scheduledDateTime)} at ${formatTime(order.booking?.time || order.scheduledDateTime)}
                         </div>
                         ${order.customer ? `
                             <div class="customer-details">
@@ -236,13 +244,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="customer-info">
                                     <div><i class="fas fa-phone"></i> ${order.customer.phone}</div>
                                     <div><i class="fas fa-map-marker-alt"></i> ${order.customer.address}</div>
+                                    ${order.customer.notes ? `<div><i class="fas fa-sticky-note"></i> ${order.customer.notes}</div>` : ''}
                                 </div>
                             </div>
                         ` : ''}
                         ${order.provider ? `<div class="service-provider">Provider: ${order.provider.name}</div>` : ''}
                     </div>
                     <div class="order-amount">
-                        <div class="amount">₹${order.amount}</div>
+                        <div class="amount">₹${order.amount || order.totalAmount}</div>
                     </div>
                 </div>
                 
@@ -261,13 +270,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.viewOrderDetails = function(orderId) {
         const order = allOrders.find(o => o.id === orderId);
-        if (!order) return;
+        if (!order) {
+            console.error('Order not found:', orderId);
+            return;
+        }
 
+        console.log('Viewing order details for:', order);
+        
         const modalContent = document.getElementById('orderDetailContent');
         modalContent.innerHTML = `
             <div class="order-detail-header">
                 <div class="order-detail-info">
-                    <h4>${order.service.name}</h4>
+                    <h4>${order.service?.name || 'Service'}</h4>
                     <div class="order-id">Order ID: ${order.id}</div>
                 </div>
                 <span class="status-badge ${order.status}">${formatStatus(order.status)}</span>
@@ -278,20 +292,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="detail-grid">
                     <div class="detail-item">
                         <div class="detail-label">Service</div>
-                        <div class="detail-value">${order.service.name}</div>
+                        <div class="detail-value">${order.service?.name || 'Service'}</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Description</div>
-                        <div class="detail-value">${order.service.description}</div>
+                        <div class="detail-value">${order.service?.description || 'Professional service'}</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Amount</div>
-                        <div class="detail-value">₹${order.amount}</div>
+                        <div class="detail-value">₹${order.amount || order.totalAmount}</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Date & Time</div>
-                        <div class="detail-value">${formatDate(order.booking.date)} at ${formatTime(order.booking.time)}</div>
+                        <div class="detail-value">${formatDate(order.booking?.date || order.scheduledDateTime)} at ${formatTime(order.booking?.time || order.scheduledDateTime)}</div>
                     </div>
+                    ${order.paymentMethod ? `
+                        <div class="detail-item">
+                            <div class="detail-label">Payment Method</div>
+                            <div class="detail-value">${order.paymentMethod}</div>
+                        </div>
+                    ` : ''}
+                    ${order.paymentStatus ? `
+                        <div class="detail-item">
+                            <div class="detail-label">Payment Status</div>
+                            <div class="detail-value">${order.paymentStatus}</div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
             

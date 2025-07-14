@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Orders</title>
+</head>
+<body>
+    <h1>Test Orders</h1>
+    <button onclick="addTestOrder()">Add Test Order</button>
+    <button onclick="viewStoredOrders()">View Stored Orders</button>
+    <button onclick="clearOrders()">Clear Orders</button>
+    <div id="output"></div>
+
+    <script>
+        function addTestOrder() {
+            const testOrder = {
+                id: 'SRV' + Date.now().toString().slice(-6),
+                service: {
+                    name: 'Leaky Faucet Repair',
+                    description: 'Fix minor leaks in faucets and pipes',
+                    price: 50,
+                    image: '../assets/faucet_images.png'
+                },
+                customer: {
+                    name: 'John Doe',
+                    phone: '9876543210',
+                    address: '123 Main Street, New Delhi',
+                    notes: 'Please come in the evening'
+                },
+                booking: {
+                    date: '2025-01-15',
+                    time: '14:00'
+                },
+                amount: 50,
+                status: 'confirmed',
+                paymentStatus: 'paid',
+                paymentMethod: 'upi',
+                createdAt: new Date().toISOString(),
+                scheduledDateTime: '2025-01-15 14:00',
+                totalAmount: 50
+            };
+
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            bookings.push(testOrder);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            
+            document.getElementById('output').innerHTML = '<p>Test order added successfully!</p>';
+        }
+
+        function viewStoredOrders() {
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            document.getElementById('output').innerHTML = '<pre>' + JSON.stringify(bookings, null, 2) + '</pre>';
+        }
+
+        function clearOrders() {
+            localStorage.removeItem('bookings');
+            document.getElementById('output').innerHTML = '<p>All orders cleared!</p>';
+        }
+    </script>
+</body>
+</html>
