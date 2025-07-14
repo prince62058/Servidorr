@@ -570,3 +570,72 @@
     align-items: center;
     gap: 8px;
 }
+
+/* UPI Payment Styles */
+.upi-payment {
+    margin-top: 1rem;
+}
+
+.popular-upi-apps {
+    margin-top: 1rem;
+}
+
+.popular-upi-apps h6 {
+    margin-bottom: 0.5rem;
+    color: var(--gray-700);
+    font-weight: 600;
+}
+
+.upi-apps {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.upi-app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.upi-app:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-light);
+}
+
+.upi-app i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.upi-app span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+/* Card Payment Styles */
+.card-payment {
+    margin-top: 1rem;
+}
+
+.payment-method {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-method:hover {
+    background: var(--gray-100);
+}
+
+.payment-method.active {
+    background: var(--primary-light);
+    border-color: var(--primary-color);
+}

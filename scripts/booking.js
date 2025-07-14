@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     let selectedTimeSlot = null;
     let selectedDate = null;
+    let selectedPaymentMethod = 'card';
 
     // Check if service is pre-selected from services page
     const preSelectedService = JSON.parse(localStorage.getItem('selectedService') || 'null');
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBookingForm();
     initializeTimeSlots();
     initializeServiceModal();
+    initializePaymentMethods();
     loadServices();
     
     // Set minimum date to today
@@ -35,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show correct step based on currentStep
         updateSteps();
+        
+        // Initialize payment interface
+        updatePaymentInterface();
         
         // Form validation
         const form = document.getElementById('bookingForm');
@@ -67,6 +72,101 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.show();
         };
     }
+
+    function initializePaymentMethods() {
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                // Remove active class from all methods
+                paymentMethods.forEach(m => m.classList.remove('active'));
+                
+                // Add active class to selected method
+                this.classList.add('active');
+                selectedPaymentMethod = this.dataset.method;
+                
+                // Show/hide payment elements based on selection
+                updatePaymentInterface();
+            });
+        });
+    }
+
+    function updatePaymentInterface() {
+        const cardElement = document.getElementById('card-element');
+        
+        if (selectedPaymentMethod === 'upi') {
+            cardElement.innerHTML = `
+                <div class="upi-payment">
+                    <div class="form-group mb-3">
+                        <label for="upiId" class="form-label">UPI ID</label>
+                        <input type="text" class="form-control" id="upiId" placeholder="example@paytm" required>
+                        <div class="form-text">Enter your UPI ID (like PhonePe, GooglePay, Paytm)</div>
+                    </div>
+                    <div class="popular-upi-apps">
+                        <h6>Popular UPI Apps</h6>
+                        <div class="upi-apps">
+                            <div class="upi-app" onclick="selectUPIApp('phonepe')">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>PhonePe</span>
+                            </div>
+                            <div class="upi-app" onclick="selectUPIApp('googlepay')">
+                                <i class="fab fa-google-pay"></i>
+                                <span>Google Pay</span>
+                            </div>
+                            <div class="upi-app" onclick="selectUPIApp('paytm')">
+                                <i class="fas fa-wallet"></i>
+                                <span>Paytm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            cardElement.innerHTML = `
+                <div class="card-payment">
+                    <div class="form-group mb-3">
+                        <label for="cardNumber" class="form-label">Card Number</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="cardName" class="form-label">Cardholder Name</label>
+                        <input type="text" class="form-control" id="cardName" placeholder="John Doe" required>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    window.selectUPIApp = function(appName) {
+        const upiId = document.getElementById('upiId');
+        if (upiId) {
+            switch(appName) {
+                case 'phonepe':
+                    upiId.placeholder = 'yourname@ybl';
+                    break;
+                case 'googlepay':
+                    upiId.placeholder = 'yourname@okaxis';
+                    break;
+                case 'paytm':
+                    upiId.placeholder = 'yourname@paytm';
+                    break;
+            }
+            upiId.focus();
+        }
+    };
 
     function loadServices() {
         const services = [
@@ -535,6 +635,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateSummary();
                 return true;
                 
+            case 3:
+                if (selectedPaymentMethod === 'upi') {
+                    const upiId = document.getElementById('upiId');
+                    if (!upiId || !upiId.value.trim()) {
+                        showNotification('Please enter your UPI ID', 'error');
+                        return false;
+                    }
+                    
+                    // Basic UPI ID validation
+                    const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
+                    if (!upiPattern.test(upiId.value.trim())) {
+                        showNotification('Please enter a valid UPI ID (e.g., name@paytm)', 'error');
+                        return false;
+                    }
+                } else {
+                    const cardNumber = document.getElementById('cardNumber');
+                    const expiryDate = document.getElementById('expiryDate');
+                    const cvv = document.getElementById('cvv');
+                    const cardName = document.getElementById('cardName');
+                    
+                    if (!cardNumber || !cardNumber.value.trim() ||
+                        !expiryDate || !expiryDate.value.trim() ||
+                        !cvv || !cvv.value.trim() ||
+                        !cardName || !cardName.value.trim()) {
+                        showNotification('Please fill in all card details', 'error');
+                        return false;
+                    }
+                }
+                return true;
+                
             default:
                 return true;
         }
@@ -619,6 +749,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Collect payment details
+        let paymentDetails = {
+            method: selectedPaymentMethod
+        };
+        
+        if (selectedPaymentMethod === 'upi') {
+            paymentDetails.upiId = document.getElementById('upiId').value.trim();
+        } else {
+            paymentDetails.cardNumber = document.getElementById('cardNumber').value.trim();
+            paymentDetails.expiryDate = document.getElementById('expiryDate').value.trim();
+            paymentDetails.cvv = document.getElementById('cvv').value.trim();
+            paymentDetails.cardName = document.getElementById('cardName').value.trim();
+        }
+
         // Collect form data
         const formData = {
             service: selectedService,
@@ -632,6 +776,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 date: selectedDate,
                 time: selectedTimeSlot
             },
+            payment: paymentDetails,
             amount: selectedService.price
         };
         
