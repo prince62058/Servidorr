@@ -940,7 +940,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Ensure all required data is present
         if (!selectedService || !selectedDate || !selectedTimeSlot) {
-            showNotification('Please complete all booking details', 'error');            return;
+            showNotification('Please complete all booking details', 'error');
+            return;
         }
 
         // Collect payment details
