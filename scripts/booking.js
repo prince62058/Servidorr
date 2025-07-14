@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 2,
-                name: 'Water Heater Installation',
-                description: 'Install new water heater systems',
+                name: 'Water Heater',
+                description: 'Install new water heater systems in homes',
                 price: 100,
                 image: '../assets/water_heater.png',
                 category: 'repair',
@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 3,
-                name: 'Fan Installation',
-                description: 'Install and replace ceiling fans',
+                name: 'Fan',
+                description: 'Install and replace ceiling fans and lighting',
                 price: 75,
                 image: '../assets/fan_image.png',
                 category: 'repair',
@@ -103,22 +103,50 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 4,
-                name: 'Full Home Cleaning',
-                description: 'Deep cleaning of entire house',
-                price: 100,
-                image: '../assets/cleaning_tools.png',
-                category: 'cleaning',
+                name: 'Switchboard Repair',
+                description: 'Repair faulty switchboards and electrical outlets',
+                price: 50,
+                image: '../assets/services/switches_images.png',
+                category: 'repair',
                 subServices: [
-                    'Deep House Cleaning',
-                    'Kitchen Deep Clean',
-                    'Bathroom Deep Clean',
-                    'Carpet Cleaning'
+                    'Socket Repair',
+                    'Switch Replacement',
+                    'Outlet Installation',
+                    'Electrical Panel Repair'
                 ]
             },
             {
                 id: 5,
-                name: 'Haircut & Styling',
-                description: 'Professional hairstyling at home',
+                name: 'Full Home Cleaning',
+                description: 'Deep cleaning of the entire house, including floors and surfaces',
+                price: 100,
+                image: 'https://www.balajicleaningagency.com/img/service/Untitled-02.jpg',
+                category: 'cleaning',
+                subServices: [
+                    'Deep House Cleaning',
+                    'Kitchen Deep Clean',
+                    'Living Room Cleaning',
+                    'Bedroom Cleaning'
+                ]
+            },
+            {
+                id: 6,
+                name: 'Bathroom',
+                description: 'Deep cleaning of bathroom surfaces, tiles, and fixtures',
+                price: 75,
+                image: '../assets/services/toilet_seat_image.png',
+                category: 'cleaning',
+                subServices: [
+                    'Toilet Deep Clean',
+                    'Tile Cleaning',
+                    'Shower Cleaning',
+                    'Mirror & Fixture Clean'
+                ]
+            },
+            {
+                id: 7,
+                name: 'Haircut and Styling',
+                description: 'Professional hairstyling and haircuts at home',
                 price: 50,
                 image: '../assets/barbar_image.png',
                 category: 'beauty',
@@ -127,6 +155,146 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Women\'s Haircut',
                     'Beard Trimming',
                     'Hair Styling'
+                ]
+            },
+            {
+                id: 8,
+                name: 'Full Body Massage',
+                description: 'Relaxing full body massage therapy at home',
+                price: 100,
+                image: '../assets/services/massage_images.png',
+                category: 'beauty',
+                subServices: [
+                    'Swedish Massage',
+                    'Deep Tissue Massage',
+                    'Aromatherapy Massage',
+                    'Relaxation Massage'
+                ]
+            },
+            {
+                id: 9,
+                name: 'AC Repair',
+                description: 'Fix and service air conditioning units',
+                price: 75,
+                image: '../assets/ac_image.png',
+                category: 'repair',
+                subServices: [
+                    'AC Gas Refill',
+                    'AC Cleaning',
+                    'Compressor Repair',
+                    'Filter Replacement'
+                ]
+            },
+            {
+                id: 10,
+                name: 'Kitchen Chimney Cleaning',
+                description: 'Deep cleaning of kitchen chimneys to remove grease and soot',
+                price: 100,
+                image: 'https://5.imimg.com/data5/SELLER/Default/2024/3/401808890/WR/UK/BU/14823340/kitchen-chimney-cleaning-service.jpg',
+                category: 'cleaning',
+                subServices: [
+                    'Chimney Filter Cleaning',
+                    'Grease Removal',
+                    'Motor Cleaning',
+                    'Duct Cleaning'
+                ]
+            },
+            {
+                id: 11,
+                name: 'Pest Control (Cockroach)',
+                description: 'Treatment to remove cockroaches from home',
+                price: 150,
+                image: 'https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/67a9ce46c35314001d3a5c28.jpg',
+                category: 'home',
+                subServices: [
+                    'Kitchen Treatment',
+                    'Bathroom Treatment',
+                    'Living Area Treatment',
+                    'Full House Treatment'
+                ]
+            },
+            {
+                id: 12,
+                name: 'Pest Control (Termite)',
+                description: 'Termite control service with safe chemicals',
+                price: 200,
+                image: 'https://www.getpestcontrol.in/wp-content/uploads/2020/11/termite-pest-control-1.jpg',
+                category: 'home',
+                subServices: [
+                    'Wood Treatment',
+                    'Foundation Treatment',
+                    'Soil Treatment',
+                    'Preventive Treatment'
+                ]
+            },
+            {
+                id: 13,
+                name: 'AC Service',
+                description: 'Comprehensive maintenance and servicing of air conditioners',
+                price: 100,
+                image: 'https://static.wixstatic.com/media/ade29c_24e1ba8f67a241b5a6a44f04a96fdbd0~mv2.png/v1/fill/w_556,h_366,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_auto/ade29c_24e1ba8f67a241b5a6a44f04a96fdbd0~mv2.png',
+                category: 'repair',
+                subServices: [
+                    'Annual Maintenance',
+                    'Filter Cleaning',
+                    'Coil Cleaning',
+                    'Performance Check'
+                ]
+            },
+            {
+                id: 14,
+                name: 'Refrigerator Repair',
+                description: 'Fix cooling issues and mechanical problems in refrigerators',
+                price: 100,
+                image: 'https://cdn.shopify.com/s/files/1/0631/7892/5894/files/How_to_fix_common_refrigerator_problems.webp?v=1693558242',
+                category: 'repair',
+                subServices: [
+                    'Cooling Issue Fix',
+                    'Compressor Repair',
+                    'Thermostat Repair',
+                    'Door Seal Replacement'
+                ]
+            },
+            {
+                id: 15,
+                name: 'Geyser Installation',
+                description: 'Professional installation of water heaters and geysers',
+                price: 150,
+                image: 'https://serviceonwheel.com/uploads/categoryimages/1619498610.geyser-repairing.jpg',
+                category: 'repair',
+                subServices: [
+                    'Electric Geyser Install',
+                    'Gas Geyser Install',
+                    'Instant Geyser Install',
+                    'Storage Geyser Install'
+                ]
+            },
+            {
+                id: 16,
+                name: 'CCTV Installation',
+                description: 'Complete CCTV camera setup and installation for home security',
+                price: 200,
+                image: 'https://5.imimg.com/data5/SELLER/Default/2023/3/293903698/XK/EH/HJ/5944502/cctv-installation-service.jpg',
+                category: 'home',
+                subServices: [
+                    'Indoor Camera Setup',
+                    'Outdoor Camera Setup',
+                    'DVR Installation',
+                    'Mobile App Setup'
+                ]
+            },
+            {
+                id: 17,
+                name: 'Mobile Repair',
+                description: 'Repair services for smartphones and mobile devices',
+                price: 100,
+                image: 'https://www.dignited.com/wp-content/uploads/2021/01/Mobile-phone-repair.jpg',
+                category: 'repair',
+                subServices: [
+                    'Screen Replacement',
+                    'Battery Replacement',
+                    'Speaker Repair',
+                    'Charging Port Fix'
                 ]
             }
         ];
