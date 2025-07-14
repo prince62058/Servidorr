@@ -54,9 +54,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="orders-header">
-                        <h1>Order History</h1>
-                        <p>Track and manage your service bookings</p>
+                    <div class="orders-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Order History</h1>
+                            <p>Track and manage your service bookings</p>
+                        </div>
+                        <button id="clearOrdersBtn" class="btn btn-outline-danger" onclick="clearAllOrders()" style="display: none;">
+                            <i class="fas fa-trash"></i> Clear All Orders
+                        </button>
                     </div>
                 </div>
             </div>

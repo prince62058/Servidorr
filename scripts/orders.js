@@ -39,6 +39,30 @@ document.addEventListener('DOMContentLoaded', function() {
         // Filter functionality is handled in initializeOrders
     }
 
+    // Function to clear all orders
+    function clearAllOrders() {
+        if (confirm('Are you sure you want to clear all orders? This action cannot be undone.')) {
+            localStorage.removeItem('bookings');
+            localStorage.removeItem('orders');
+            allOrders = [];
+            displayOrders([]);
+            showNotification('All orders have been cleared successfully!', 'success');
+        }
+    }
+
+    // Show clear orders button if orders exist
+    function showClearOrdersButton() {
+        const clearBtn = document.getElementById('clearOrdersBtn');
+        if (clearBtn && allOrders.length > 0) {
+            clearBtn.style.display = 'block';
+        } else if (clearBtn) {
+            clearBtn.style.display = 'none';
+        }
+    }
+
+    // Make clearAllOrders globally accessible
+    window.clearAllOrders = clearAllOrders;
+
     function loadOrders() {
         // Load orders from localStorage
         const storedOrders = JSON.parse(localStorage.getItem('bookings') || '[]');
@@ -106,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
             allOrders = storedOrders;
         }
 
+        showClearOrdersButton();
         filterAndDisplayOrders();
     }
 
