@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeServiceModal();
     initializePaymentMethods();
     loadServices();
-    
+
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('serviceDate').setAttribute('min', today);
@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeBookingForm() {
         // Update service display
         updateSelectedService();
-        
+
         // Show correct step based on currentStep
         updateSteps();
-        
+
         // Initialize payment interface
         updatePaymentInterface();
-        
+
         // Form validation
         const form = document.getElementById('bookingForm');
         form.addEventListener('submit', handleFormSubmit);
-        
+
         // Update button states
         updateButtonStates();
     }
@@ -58,11 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
             slot.addEventListener('click', function() {
                 // Remove selection from other slots
                 timeSlots.forEach(s => s.classList.remove('selected'));
-                
+
                 // Select current slot
                 this.classList.add('selected');
                 selectedTimeSlot = this.dataset.time;
-                
+
                 // Update summary
                 updateSummary();
             });
@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
             method.addEventListener('click', function() {
                 // Remove active class from all methods
                 paymentMethods.forEach(m => m.classList.remove('active'));
-                
+
                 // Add active class to selected method
                 this.classList.add('active');
                 selectedPaymentMethod = this.dataset.method;
-                
+
                 // Show/hide payment elements based on selection
                 updatePaymentInterface();
             });
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updatePaymentInterface() {
         const cardElement = document.getElementById('card-element');
-        
+
         if (selectedPaymentMethod === 'upi') {
             cardElement.innerHTML = `
                 <div class="upi-payment">
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="card-payment">
                     <div class="form-group mb-3">
                         <label for="cardNumber" class="form-label">Card Number</label>
-                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -443,10 +443,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.stopPropagation();
                 const card = this.closest('.service-card-main');
                 const isExpanded = card.classList.contains('expanded');
-                
+
                 // Close all other cards
                 document.querySelectorAll('.service-card-main').forEach(c => c.classList.remove('expanded'));
-                
+
                 // Toggle current card
                 if (!isExpanded) {
                     card.classList.add('expanded');
@@ -501,14 +501,14 @@ document.addEventListener('DOMContentLoaded', function() {
             name: subServiceName,
             description: `Professional ${subServiceName.toLowerCase()} service`
         };
-        
+
         updateSelectedService();
         updateSummary();
-        
+
         // Close modal and show confirmation
         const modal = bootstrap.Modal.getInstance(document.getElementById('serviceModal'));
         modal.hide();
-        
+
         showNotification(`${subServiceName} selected successfully!`, 'success');
     };
 
@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedService = services.find(s => s.id === serviceId);
         updateSelectedService();
         updateSummary();
-        
+
         // Close modal
         const modal = bootstrap.Modal.getInstance(document.getElementById('serviceModal'));
         modal.hide();
@@ -566,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceName = document.getElementById('serviceName');
         const serviceDescription = document.getElementById('serviceDescription');
         const servicePrice = document.getElementById('servicePrice');
-        
+
         if (serviceImage) {
             serviceImage.src = selectedService.image;
             serviceImage.alt = selectedService.name;
@@ -574,16 +574,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (serviceName) serviceName.textContent = selectedService.name;
         if (serviceDescription) serviceDescription.textContent = selectedService.description;
         if (servicePrice) servicePrice.textContent = `₹${selectedService.price}`;
-        
+
         // Update booking header with service name
         const bookingHeader = document.querySelector('.booking-header h2');
         if (bookingHeader) {
             bookingHeader.textContent = `Book ${selectedService.name}`;
         }
-        
+
         // Also update summary immediately
         updateSummary();
-        
+
         console.log('Updated service display for:', selectedService.name);
     }
 
@@ -594,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const summaryTime = document.getElementById('summaryTime');
         const summaryDuration = document.getElementById('summaryDuration');
         const summaryServiceImage = document.getElementById('summaryServiceImage');
-        
+
         if (summaryService) summaryService.textContent = selectedService.name;
         if (summaryTotal) summaryTotal.textContent = `₹${selectedService.price}`;
         if (summaryDuration) summaryDuration.textContent = selectedService.duration || '1-2 hours';
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
             summaryServiceImage.src = selectedService.image;
             summaryServiceImage.alt = selectedService.name;
         }
-        
+
         if (selectedDate && summaryDate) {
             const date = new Date(selectedDate);
             summaryDate.textContent = date.toLocaleDateString('en-IN', {
@@ -612,30 +612,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 day: 'numeric'
             });
         }
-        
+
         if (selectedTimeSlot && summaryTime) {
             const time = convertTo12Hour(selectedTimeSlot);
             summaryTime.textContent = time;
         }
-        
+
         // Update step 2 with current selections
         updateStep2Summary();
-        
+
         console.log('Summary updated for service:', selectedService.name, 'Price:', selectedService.price);
     }
-    
+
     function updateStep2Summary() {
         // Add booking summary to step 2 for better visibility
         const step2 = document.querySelector('.form-step[data-step="2"]');
         if (!step2) return;
-        
+
         let summaryDiv = step2.querySelector('.current-booking-summary');
         if (!summaryDiv) {
             summaryDiv = document.createElement('div');
             summaryDiv.className = 'current-booking-summary';
             step2.insertBefore(summaryDiv, step2.querySelector('.datetime-selection'));
         }
-        
+
         summaryDiv.innerHTML = `
             <div class="booking-summary-card">
                 <h5>Your Booking Details</h5>
@@ -696,87 +696,87 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateCurrentStep() {
         console.log('Validating step:', currentStep);
-        
+
         switch (currentStep) {
             case 1:
                 const name = document.getElementById('customerName').value.trim();
                 const phone = document.getElementById('customerPhone').value.trim();
                 const address = document.getElementById('customerAddress').value.trim();
-                
+
                 if (!name) {
                     showNotification('Please enter your full name', 'error');
                     document.getElementById('customerName').focus();
                     return false;
                 }
-                
+
                 if (name.length < 2) {
                     showNotification('Please enter a valid name (at least 2 characters)', 'error');
                     document.getElementById('customerName').focus();
                     return false;
                 }
-                
+
                 if (!phone) {
                     showNotification('Please enter your phone number', 'error');
                     document.getElementById('customerPhone').focus();
                     return false;
                 }
-                
+
                 if (!/^[6-9]\d{9}$/.test(phone)) {
                     showNotification('Please enter a valid 10-digit Indian phone number', 'error');
                     document.getElementById('customerPhone').focus();
                     return false;
                 }
-                
+
                 if (!address) {
                     showNotification('Please enter your address', 'error');
                     document.getElementById('customerAddress').focus();
                     return false;
                 }
-                
+
                 if (address.length < 10) {
                     showNotification('Please enter a complete address (at least 10 characters)', 'error');
                     document.getElementById('customerAddress').focus();
                     return false;
                 }
-                
+
                 console.log('Step 1 validation passed');
                 return true;
-                
+
             case 2:
                 const date = document.getElementById('serviceDate').value;
-                
+
                 if (!date) {
                     showNotification('Please select a service date', 'error');
                     document.getElementById('serviceDate').focus();
                     return false;
                 }
-                
+
                 // Check if date is not in the past
                 const selectedDate = new Date(date);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                
+
                 if (selectedDate < today) {
                     showNotification('Please select a future date', 'error');
                     document.getElementById('serviceDate').focus();
                     return false;
                 }
-                
+
                 if (!selectedTimeSlot) {
                     showNotification('Please select a time slot', 'error');
                     return false;
                 }
-                
+
                 // Update global variables
                 window.selectedDate = date;
-                
+
                 updateSummary();
                 console.log('Step 2 validation passed');
                 return true;
-                
+
             case 3:
                 console.log('Validating payment details for method:', selectedPaymentMethod);
-                
+
                 if (selectedPaymentMethod === 'upi') {
                     const upiId = document.getElementById('upiId');
                     if (!upiId || !upiId.value.trim()) {
@@ -784,7 +784,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (upiId) upiId.focus();
                         return false;
                     }
-                    
+
                     // Basic UPI ID validation
                     const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
                     if (!upiPattern.test(upiId.value.trim())) {
@@ -792,67 +792,67 @@ document.addEventListener('DOMContentLoaded', function() {
                         upiId.focus();
                         return false;
                     }
-                    
+
                 } else if (selectedPaymentMethod === 'card') {
                     const cardNumber = document.getElementById('cardNumber');
                     const expiryDate = document.getElementById('expiryDate');
                     const cvv = document.getElementById('cvv');
                     const cardName = document.getElementById('cardName');
-                    
+
                     if (!cardNumber || !cardNumber.value.trim()) {
                         showNotification('Please enter card number', 'error');
                         if (cardNumber) cardNumber.focus();
                         return false;
                     }
-                    
+
                     if (!expiryDate || !expiryDate.value.trim()) {
                         showNotification('Please enter expiry date', 'error');
                         if (expiryDate) expiryDate.focus();
                         return false;
                     }
-                    
+
                     if (!cvv || !cvv.value.trim()) {
                         showNotification('Please enter CVV', 'error');
                         if (cvv) cvv.focus();
                         return false;
                     }
-                    
+
                     if (!cardName || !cardName.value.trim()) {
                         showNotification('Please enter cardholder name', 'error');
                         if (cardName) cardName.focus();
                         return false;
                     }
-                    
+
                     // Validate card number format
                     const cardNum = cardNumber.value.replace(/\s/g, '');
                     if (!/^\d{13,19}$/.test(cardNum)) {
-                        showNotification('Please enter a valid card number', 'error');
+                        showNotification('Please enter a valid card number (13-19 digits)', 'error');
                         cardNumber.focus();
                         return false;
                     }
-                    
+
                     // Validate expiry format
                     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate.value)) {
                         showNotification('Please enter expiry in MM/YY format', 'error');
                         expiryDate.focus();
                         return false;
                     }
-                    
+
                     // Validate CVV format
                     if (!/^\d{3,4}$/.test(cvv.value)) {
                         showNotification('Please enter a valid CVV', 'error');
                         cvv.focus();
                         return false;
                     }
-                    
+
                 } else {
                     showNotification('Please select a payment method', 'error');
                     return false;
                 }
-                
+
                 console.log('Step 3 validation passed');
                 return true;
-                
+
             default:
                 return true;
         }
@@ -868,7 +868,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span>${message}</span>
             </div>
         `;
-        
+
         // Add styles
         notification.style.cssText = `
             position: fixed;
@@ -882,9 +882,9 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 10000;
             animation: slideIn 0.3s ease;
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
@@ -896,7 +896,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update step indicators
         const steps = document.querySelectorAll('.step');
         const formSteps = document.querySelectorAll('.form-step');
-        
+
         steps.forEach((step, index) => {
             const stepNumber = index + 1;
             if (stepNumber < currentStep) {
@@ -909,7 +909,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 step.classList.remove('active', 'completed');
             }
         });
-        
+
         // Update form steps
         formSteps.forEach((step, index) => {
             if (index + 1 === currentStep) {
@@ -924,7 +924,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const submitBtn = document.getElementById('submitBtn');
-        
+
         prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-block';
         nextBtn.style.display = currentStep === 3 ? 'none' : 'inline-block';
         submitBtn.style.display = currentStep === 3 ? 'inline-block' : 'none';
@@ -932,23 +932,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleFormSubmit(e) {
         e.preventDefault();
-        
+
         // Final validation before processing
         if (!validateCurrentStep()) {
             return;
         }
-        
+
         // Ensure all required data is present
         if (!selectedService || !selectedDate || !selectedTimeSlot) {
-            showNotification('Please complete all booking details', 'error');
-            return;
+            showNotification('Please complete all booking details', 'error');            return;
         }
-        
+
         // Collect payment details
         let paymentDetails = {
             method: selectedPaymentMethod
         };
-        
+
         if (selectedPaymentMethod === 'upi') {
             const upiInput = document.getElementById('upiId');
             if (!upiInput || !upiInput.value.trim()) {
@@ -961,7 +960,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const expiryDate = document.getElementById('expiryDate');
             const cvv = document.getElementById('cvv');
             const cardName = document.getElementById('cardName');
-            
+
             if (!cardNumber || !cardNumber.value.trim() ||
                 !expiryDate || !expiryDate.value.trim() ||
                 !cvv || !cvv.value.trim() ||
@@ -969,7 +968,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('Please fill in all card details', 'error');
                 return;
             }
-            
+
             paymentDetails.cardNumber = cardNumber.value.trim();
             paymentDetails.expiryDate = expiryDate.value.trim();
             paymentDetails.cvv = cvv.value.trim();
@@ -992,9 +991,9 @@ document.addEventListener('DOMContentLoaded', function() {
             payment: paymentDetails,
             amount: selectedService.price
         };
-        
+
         console.log('Processing booking with data:', formData);
-        
+
         // Process booking
         processBooking(formData);
     }
@@ -1005,26 +1004,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Processing Payment...';
         submitBtn.disabled = true;
-        
+
         console.log('Starting booking process for:', bookingData.service.name);
-        
+
         // Validate payment details one more time
         if (!validatePaymentDetails(bookingData.payment)) {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
             return;
         }
-        
+
         // Process payment first
         processPayment(bookingData)
             .then(paymentResult => {
                 console.log('Payment result:', paymentResult);
-                
+
                 if (paymentResult.success) {
                     // Generate order ID
                     const orderId = 'SRV' + Date.now().toString().slice(-6);
                     console.log('Generated order ID:', orderId);
-                    
+
                     // Store booking data
                     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
                     const newBooking = {
@@ -1040,29 +1039,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         scheduledDateTime: `${bookingData.booking.date} ${bookingData.booking.time}`,
                         totalAmount: bookingData.amount
                     };
-                    
+
                     bookings.push(newBooking);
                     localStorage.setItem('bookings', JSON.stringify(bookings));
-                    
+
                     console.log('Booking saved successfully:', newBooking);
-                    
+
                     // Show success message
                     showSuccessModal(orderId, newBooking);
-                    
+
                     // Reset form after successful booking
                     setTimeout(() => {
                         resetBookingForm();
                     }, 2000);
-                    
+
                 } else {
                     console.error('Payment failed:', paymentResult.error);
                     showNotification(`Payment failed: ${paymentResult.error || 'Unknown error'}`, 'error');
                 }
-                
+
                 // Reset button
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-                
+
             })
             .catch(error => {
                 console.error('Booking process error:', error);
@@ -1071,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = false;
             });
     }
-    
+
     function resetBookingForm() {
         try {
             // Reset form
@@ -1079,23 +1078,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if (form) {
                 form.reset();
             }
-            
+
             // Reset variables
             selectedDate = null;
             selectedTimeSlot = null;
             currentStep = 1;
-            
+
             // Reset UI
             updateSteps();
             updateButtonStates();
             updateSelectedService();
             updateSummary();
-            
+
             // Clear time slot selections
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.classList.remove('selected');
             });
-            
+
             // Reset payment method
             selectedPaymentMethod = 'card';
             document.querySelectorAll('.payment-method').forEach(method => {
@@ -1104,57 +1103,57 @@ document.addEventListener('DOMContentLoaded', function() {
                     method.classList.add('active');
                 }
             });
-            
+
             updatePaymentInterface();
-            
+
             console.log('Booking form reset successfully');
-            
+
         } catch (error) {
             console.error('Error resetting form:', error);
         }
     }
-    
+
     function validatePaymentDetails(payment) {
         console.log('Validating payment details:', payment);
-        
+
         if (!payment || !payment.method) {
             showNotification('Please select a payment method', 'error');
             return false;
         }
-        
+
         if (payment.method === 'upi') {
             if (!payment.upiId || payment.upiId.trim() === '') {
                 showNotification('Please enter your UPI ID', 'error');
                 return false;
             }
-            
+
             const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
             if (!upiPattern.test(payment.upiId.trim())) {
                 showNotification('Please enter a valid UPI ID (e.g., name@paytm)', 'error');
                 return false;
             }
-            
+
             console.log('UPI validation passed');
-            
+
         } else if (payment.method === 'card') {
             if (!payment.cardNumber || !payment.expiryDate || !payment.cvv || !payment.cardName) {
                 showNotification('Please fill in all card details', 'error');
                 return false;
             }
-            
+
             // Basic card validation
             const cardNumber = payment.cardNumber.replace(/\s/g, '');
             if (cardNumber.length < 13 || cardNumber.length > 19 || !/^\d+$/.test(cardNumber)) {
                 showNotification('Please enter a valid card number (13-19 digits)', 'error');
                 return false;
             }
-            
+
             const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
             if (!expiryPattern.test(payment.expiryDate)) {
                 showNotification('Please enter expiry date in MM/YY format', 'error');
                 return false;
             }
-            
+
             // Check if expiry date is not in the past
             const [month, year] = payment.expiryDate.split('/');
             const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
@@ -1163,35 +1162,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNotification('Card has expired. Please use a valid card', 'error');
                 return false;
             }
-            
+
             if (payment.cvv.length < 3 || payment.cvv.length > 4 || !/^\d+$/.test(payment.cvv)) {
                 showNotification('Please enter a valid CVV (3-4 digits)', 'error');
                 return false;
             }
-            
+
             if (payment.cardName.trim().length < 2) {
                 showNotification('Please enter cardholder name', 'error');
                 return false;
             }
-            
+
             console.log('Card validation passed');
-            
+
         } else {
             showNotification('Invalid payment method selected', 'error');
             return false;
         }
-        
+
         return true;
     }
-    
+
     function processPayment(bookingData) {
         return new Promise((resolve, reject) => {
             try {
                 const paymentMethod = bookingData.payment.method;
                 const amount = bookingData.amount;
-                
+
                 console.log(`Processing ${paymentMethod} payment of ₹${amount}...`);
-                
+
                 // Validate payment details one more time
                 if (paymentMethod === 'upi') {
                     const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
@@ -1206,26 +1205,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         reject(new Error('Invalid card number'));
                         return;
                     }
-                    
+
                     const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
                     if (!expiryPattern.test(bookingData.payment.expiryDate)) {
                         reject(new Error('Invalid expiry date format (MM/YY)'));
                         return;
                     }
-                    
+
                     if (bookingData.payment.cvv.length < 3 || bookingData.payment.cvv.length > 4 || !/^\d+$/.test(bookingData.payment.cvv)) {
                         reject(new Error('Invalid CVV'));
                         return;
                     }
                 }
-                
+
                 // Show payment processing animation
                 showPaymentProcessing(paymentMethod);
-                
+
                 setTimeout(() => {
                     // Simulate successful payment (95% success rate)
                     const success = Math.random() > 0.05;
-                    
+
                     if (success) {
                         const paymentId = 'PAY' + Date.now().toString() + Math.random().toString(36).substr(2, 5);
                         console.log('Payment successful:', paymentId);
@@ -1244,14 +1243,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                 }, 3000);
-                
+
             } catch (error) {
                 console.error('Payment processing error:', error);
                 reject(error);
             }
         });
     }
-    
+
     function showPaymentProcessing(method) {
         const processingHtml = `
             <div class="payment-processing-overlay" id="paymentProcessing">
@@ -1278,24 +1277,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
-        
+
         document.body.insertAdjacentHTML('beforeend', processingHtml);
-        
+
         // Animate steps
         setTimeout(() => {
             document.getElementById('step2').classList.add('active');
         }, 1000);
-        
+
         setTimeout(() => {
             document.getElementById('step3').classList.add('active');
         }, 2000);
-        
+
         setTimeout(() => {
             const overlay = document.getElementById('paymentProcessing');
             if (overlay) overlay.remove();
         }, 3500);
     }
-    
+
     function getEstimatedTime(serviceId) {
         const timeMap = {
             1: '1-2 hours',
@@ -1313,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (existingModal) {
             existingModal.remove();
         }
-        
+
         const scheduledDate = new Date(bookingDetails.booking.date);
         const formattedDate = scheduledDate.toLocaleDateString('en-IN', {
             weekday: 'long',
@@ -1322,7 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
             day: 'numeric'
         });
         const formattedTime = convertTo12Hour(bookingDetails.booking.time);
-        
+
         const modalHtml = `
             <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-lg">
@@ -1344,7 +1343,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <strong>Order ID:</strong> ${orderId}
                                 </div>
                             </div>
-                            
+
                             <div class="booking-confirmation-details">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -1366,7 +1365,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="customer-details mt-3">
                                     <div class="detail-card">
                                         <h6><i class="fas fa-user me-2"></i>Customer Details</h6>
@@ -1375,7 +1374,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <p><strong>Address:</strong> ${bookingDetails.customer.address}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div class="next-steps mt-4">
                                     <h6><i class="fas fa-info-circle me-2"></i>What's Next?</h6>
                                     <ul class="list-unstyled">
@@ -1402,21 +1401,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
-        
+
         document.body.insertAdjacentHTML('beforeend', modalHtml);
-        
+
         // Initialize and show modal
         const modalElement = document.getElementById('successModal');
         const modal = new bootstrap.Modal(modalElement);
-        
+
         // Show modal
         modal.show();
-        
+
         // Clean up when modal is hidden
         modalElement.addEventListener('hidden.bs.modal', function () {
             modalElement.remove();
         });
-        
+
         console.log('Success modal displayed for order:', orderId);
     }
 
@@ -1427,6 +1426,24 @@ document.addEventListener('DOMContentLoaded', function() {
     window.goHome = function() {
         window.location.href = '../index.html';
     };
+
+    // Add input formatting for payment fields
+    function initializePaymentFieldFormatting() {
+        const cardNumberInput = document.getElementById('cardNumber');
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                e.target.value = formattedValue;
+            });
+        }
+    }
 
     // Initialize with console log for debugging
     console.log('Booking system initialized successfully!');
@@ -1448,9 +1465,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         // Auto remove after 5 seconds
         setTimeout(() => {
             if (notification.parentNode) {
