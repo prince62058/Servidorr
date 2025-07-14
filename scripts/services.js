@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.9,
                 reviews: 120,
-                image: '../assets/services/kitchen_cleaning.jpg',
+                image: '../assets/services/kitchen_cleaning.svg',
                 category: 'cleaning',
                 features: ['Eco-friendly products', 'Appliance cleaning', 'Deep sanitization', 'Grease removal'],
                 duration: '3-4 hours'
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 75,
                 rating: 4.8,
                 reviews: 95,
-                image: '../assets/services/bathroom_cleaning.jpg',
+                image: '../assets/services/bathroom_cleaning.svg',
                 category: 'cleaning',
                 features: ['Tile cleaning', 'Fixture polishing', 'Drain cleaning', 'Sanitization'],
                 duration: '2-3 hours'
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.7,
                 reviews: 85,
-                image: '../assets/services/chimney_cleaning.jpg',
+                image: '../assets/services/chimney_cleaning.svg',
                 category: 'cleaning',
                 features: ['Grease removal', 'Filter cleaning', 'Motor servicing', 'Performance improvement'],
                 duration: '2-3 hours'
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 150,
                 rating: 4.7,
                 reviews: 110,
-                image: '../assets/services/pest_cockroach.jpg',
+                image: '../assets/services/pest_cockroach.svg',
                 category: 'home',
                 features: ['Safe chemicals', 'Long-lasting effect', 'All areas covered', '3 months warranty'],
                 duration: '2-4 hours'
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 200,
                 rating: 4.9,
                 reviews: 100,
-                image: '../assets/services/pest_termite.jpg',
+                image: '../assets/services/pest_termite.svg',
                 category: 'home',
                 features: ['Pre-construction treatment', 'Post-construction care', 'Chemical barrier', '5 years warranty'],
                 duration: '4-6 hours'
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.8,
                 reviews: 130,
-                image: '../assets/services/ac_service.jpg',
+                image: '../assets/services/ac_service.svg',
                 category: 'repair',
                 features: ['Filter cleaning', 'Gas check', 'Coil cleaning', 'Performance optimization'],
                 duration: '1-2 hours'
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.6,
                 reviews: 100,
-                image: '../assets/services/fridge_repair.jpg',
+                image: '../assets/services/fridge_repair.svg',
                 category: 'repair',
                 features: ['Cooling check', 'Component repair', 'Gas refilling', 'Temperature calibration'],
                 duration: '2-3 hours'
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.7,
                 reviews: 80,
-                image: '../assets/services/geyser_installation.jpg',
+                image: '../assets/services/geyser_installation.svg',
                 category: 'repair',
                 features: ['Professional installation', 'Safety valve setup', 'Plumbing connection', 'Testing included'],
                 duration: '2-3 hours'
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 250,
                 rating: 4.8,
                 reviews: 65,
-                image: '../assets/services/cctv_installation.jpg',
+                image: '../assets/services/cctv_installation.svg',
                 category: 'home',
                 features: ['HD cameras', 'Night vision', 'Mobile app setup', 'Storage configuration'],
                 duration: '4-6 hours'
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.7,
                 reviews: 85,
-                image: '../assets/services/mobile_repair.jpg',
+                image: '../assets/services/mobile_repair.svg',
                 category: 'repair',
                 features: ['Screen replacement', 'Software issues', 'Hardware repair', 'Data recovery'],
                 duration: '1-3 hours'
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 120,
                 rating: 4.5,
                 reviews: 75,
-                image: '../assets/services/ac_gas_filling.jpg',
+                image: '../assets/services/ac_gas_filling.svg',
                 category: 'repair',
                 features: ['Gas level check', 'Leak detection', 'Quality refrigerant', 'Performance testing'],
                 duration: '1-2 hours'
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 80,
                 rating: 4.6,
                 reviews: 60,
-                image: '../assets/services/curtain_cleaning.jpg',
+                image: '../assets/services/curtain_cleaning.svg',
                 category: 'cleaning',
                 features: ['Fabric care', 'Stain removal', 'Fresh fragrance', 'Dry cleaning option'],
                 duration: '2-3 hours'
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 90,
                 rating: 4.7,
                 reviews: 45,
-                image: '../assets/services/doorbell_installation.jpg',
+                image: '../assets/services/doorbell_installation.svg',
                 category: 'home',
                 features: ['Smart connectivity', 'Video recording', 'Mobile alerts', 'Wiring setup'],
                 duration: '1-2 hours'
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 80,
                 rating: 4.5,
                 reviews: 90,
-                image: '../assets/services/geyser_repair.jpg',
+                image: '../assets/services/geyser_repair.svg',
                 category: 'repair',
                 features: ['Element replacement', 'Thermostat check', 'Safety valve repair', 'Temperature calibration'],
                 duration: '1-2 hours'
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 200,
                 rating: 4.8,
                 reviews: 55,
-                image: '../assets/services/inverter_installation.jpg',
+                image: '../assets/services/inverter_installation.svg',
                 category: 'home',
                 features: ['Battery connection', 'Load calculation', 'Safety wiring', 'Testing included'],
                 duration: '3-4 hours'
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 90,
                 rating: 4.6,
                 reviews: 80,
-                image: '../assets/services/mattress_cleaning.jpg',
+                image: '../assets/services/mattress_cleaning.svg',
                 category: 'cleaning',
                 features: ['Dust mite removal', 'Stain cleaning', 'Sanitization', 'Odor elimination'],
                 duration: '2-3 hours'
@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 85,
                 rating: 4.4,
                 reviews: 65,
-                image: '../assets/services/microwave_repair.jpg',
+                image: '../assets/services/microwave_repair.svg',
                 category: 'repair',
                 features: ['Component diagnosis', 'Magnetron repair', 'Door seal check', 'Safety testing'],
                 duration: '1-2 hours'
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 120,
                 rating: 4.7,
                 reviews: 95,
-                image: '../assets/services/sofa_shampooing.jpg',
+                image: '../assets/services/sofa_shampooing.svg',
                 category: 'cleaning',
                 features: ['Deep fabric cleaning', 'Stain removal', 'Quick drying', 'Fabric protection'],
                 duration: '2-4 hours'
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.6,
                 reviews: 110,
-                image: '../assets/services/washing_machine_repair.jpg',
+                image: '../assets/services/washing_machine_repair.svg',
                 category: 'repair',
                 features: ['Drum cleaning', 'Motor repair', 'Pipe checking', 'Performance optimization'],
                 duration: '2-3 hours'
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 150,
                 rating: 4.8,
                 reviews: 70,
-                image: '../assets/services/water_tank_cleaning.jpg',
+                image: '../assets/services/water_tank_cleaning.svg',
                 category: 'cleaning',
                 features: ['Complete drainage', 'Scrubbing & cleaning', 'Disinfection', 'Quality testing'],
                 duration: '3-5 hours'

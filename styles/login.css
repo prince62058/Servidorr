@@ -411,40 +411,7 @@
     text-align: center;
 }
 
-/* Status Indicator */
-.status-indicator {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
 
-.status-indicator i {
-    font-size: 8px;
-    color: #27ae60;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 1;
-    }
-}
 
 /* Notification Container */
 .notification-container {
@@ -502,12 +469,7 @@
         padding: 40px 30px;
     }
     
-    .status-indicator {
-        top: 10px;
-        right: 10px;
-        font-size: 12px;
-        padding: 6px 12px;
-    }
+
     
     .notification-container {
         top: 10px;

@@ -1,0 +1,13 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f8f9fa"/>
+  <rect x="20" y="20" width="260" height="160" fill="#667eea" rx="10"/>
+  <rect x="100" y="50" width="100" height="100" fill="#ffffff" rx="8"/>
+  <circle cx="150" cy="100" r="35" fill="#e0e7ff"/>
+  <circle cx="150" cy="100" r="25" fill="#667eea"/>
+  <circle cx="150" cy="100" r="15" fill="#ffffff"/>
+  <rect x="120" y="60" width="60" height="5" fill="#667eea" rx="2"/>
+  <circle cx="130" cy="70" r="3" fill="#667eea"/>
+  <circle cx="170" cy="70" r="3" fill="#667eea"/>
+  <rect x="110" y="160" width="80" height="8" fill="#ffffff" rx="2"/>
+  <text x="150" y="190" text-anchor="middle" fill="#667eea" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Washing Machine</text>
+</svg>

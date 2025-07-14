@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupBtn = document.getElementById('signupBtn');
     const togglePassword = document.getElementById('togglePassword');
     const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const statusIndicator = document.getElementById('statusIndicator');
+
     
     // Initialize signup page
     initializeSignup();
@@ -41,9 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Facebook signup integration coming soon!', 'info');
         });
         
-        // Real-time status updates
-        updateStatus();
-        setInterval(updateStatus, 5000);
+
         
         console.log('Signup page initialized successfully!');
     }
@@ -310,14 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return colors[type] || colors.info;
     }
     
-    function updateStatus() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString();
-        statusIndicator.innerHTML = `
-            <i class="fas fa-circle"></i>
-            <span>Online - ${timeString}</span>
-        `;
-    }
+
     
     // Password strength indicator
     passwordInput.addEventListener('input', function() {

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordInput = document.getElementById('password');
     const loginBtn = document.getElementById('loginBtn');
     const togglePassword = document.getElementById('togglePassword');
-    const statusIndicator = document.getElementById('statusIndicator');
+
     
     // Demo users for testing
     const demoUsers = [
@@ -47,9 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Facebook login integration coming soon!', 'info');
         });
         
-        // Real-time status updates
-        updateStatus();
-        setInterval(updateStatus, 5000);
+
         
         // Check if user is already logged in
         checkExistingSession();
@@ -240,14 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return colors[type] || colors.info;
     }
     
-    function updateStatus() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString();
-        statusIndicator.innerHTML = `
-            <i class="fas fa-circle"></i>
-            <span>Online - ${timeString}</span>
-        `;
-    }
+
     
     function checkExistingSession() {
         const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
