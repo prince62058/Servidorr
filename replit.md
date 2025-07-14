@@ -133,6 +133,11 @@ The application is designed to be easily extended with backend services while ma
 
 ## Recent Updates
 
+**July 14, 2025 - Navigation Menu Updates:**
+- Removed "Book Now" button from navigation menu across all pages as requested
+- Updated all "View Sub-Services" buttons on home page to redirect to services page
+- Improved navigation flow for better user experience
+
 **July 14, 2025 - Added Professional Favicon Across All Pages:**
 - Created custom SVG favicon with tools/service theme matching Servidorr branding
 - Added favicon.ico fallback for older browsers
