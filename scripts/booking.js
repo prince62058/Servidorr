@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedTimeSlot = null;
     let selectedDate = null;
 
+    // Check if service is pre-selected from services page
+    const preSelectedService = JSON.parse(localStorage.getItem('selectedService') || 'null');
+    if (preSelectedService) {
+        selectedService = preSelectedService;
+        currentStep = 2; // Skip to date/time selection
+        localStorage.removeItem('selectedService'); // Clear after use
+    }
+
     // Initialize booking form
     initializeBookingForm();
     initializeTimeSlots();
@@ -24,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeBookingForm() {
         // Update service display
         updateSelectedService();
+        
+        // Show correct step based on currentStep
+        updateSteps();
         
         // Form validation
         const form = document.getElementById('bookingForm');
