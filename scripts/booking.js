@@ -695,40 +695,93 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function validateCurrentStep() {
+        console.log('Validating step:', currentStep);
+        
         switch (currentStep) {
             case 1:
                 const name = document.getElementById('customerName').value.trim();
                 const phone = document.getElementById('customerPhone').value.trim();
                 const address = document.getElementById('customerAddress').value.trim();
                 
-                if (!name || !phone || !address) {
-                    showNotification('Please fill in all required fields', 'error');
+                if (!name) {
+                    showNotification('Please enter your full name', 'error');
+                    document.getElementById('customerName').focus();
+                    return false;
+                }
+                
+                if (name.length < 2) {
+                    showNotification('Please enter a valid name (at least 2 characters)', 'error');
+                    document.getElementById('customerName').focus();
+                    return false;
+                }
+                
+                if (!phone) {
+                    showNotification('Please enter your phone number', 'error');
+                    document.getElementById('customerPhone').focus();
                     return false;
                 }
                 
                 if (!/^[6-9]\d{9}$/.test(phone)) {
-                    showNotification('Please enter a valid 10-digit phone number', 'error');
+                    showNotification('Please enter a valid 10-digit Indian phone number', 'error');
+                    document.getElementById('customerPhone').focus();
                     return false;
                 }
+                
+                if (!address) {
+                    showNotification('Please enter your address', 'error');
+                    document.getElementById('customerAddress').focus();
+                    return false;
+                }
+                
+                if (address.length < 10) {
+                    showNotification('Please enter a complete address (at least 10 characters)', 'error');
+                    document.getElementById('customerAddress').focus();
+                    return false;
+                }
+                
+                console.log('Step 1 validation passed');
                 return true;
                 
             case 2:
                 const date = document.getElementById('serviceDate').value;
-                selectedDate = date;
                 
-                if (!date || !selectedTimeSlot) {
-                    showNotification('Please select date and time slot', 'error');
+                if (!date) {
+                    showNotification('Please select a service date', 'error');
+                    document.getElementById('serviceDate').focus();
                     return false;
                 }
                 
+                // Check if date is not in the past
+                const selectedDate = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (selectedDate < today) {
+                    showNotification('Please select a future date', 'error');
+                    document.getElementById('serviceDate').focus();
+                    return false;
+                }
+                
+                if (!selectedTimeSlot) {
+                    showNotification('Please select a time slot', 'error');
+                    return false;
+                }
+                
+                // Update global variables
+                window.selectedDate = date;
+                
                 updateSummary();
+                console.log('Step 2 validation passed');
                 return true;
                 
             case 3:
+                console.log('Validating payment details for method:', selectedPaymentMethod);
+                
                 if (selectedPaymentMethod === 'upi') {
                     const upiId = document.getElementById('upiId');
                     if (!upiId || !upiId.value.trim()) {
                         showNotification('Please enter your UPI ID', 'error');
+                        if (upiId) upiId.focus();
                         return false;
                     }
                     
@@ -736,22 +789,68 @@ document.addEventListener('DOMContentLoaded', function() {
                     const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
                     if (!upiPattern.test(upiId.value.trim())) {
                         showNotification('Please enter a valid UPI ID (e.g., name@paytm)', 'error');
+                        upiId.focus();
                         return false;
                     }
-                } else {
+                    
+                } else if (selectedPaymentMethod === 'card') {
                     const cardNumber = document.getElementById('cardNumber');
                     const expiryDate = document.getElementById('expiryDate');
                     const cvv = document.getElementById('cvv');
                     const cardName = document.getElementById('cardName');
                     
-                    if (!cardNumber || !cardNumber.value.trim() ||
-                        !expiryDate || !expiryDate.value.trim() ||
-                        !cvv || !cvv.value.trim() ||
-                        !cardName || !cardName.value.trim()) {
-                        showNotification('Please fill in all card details', 'error');
+                    if (!cardNumber || !cardNumber.value.trim()) {
+                        showNotification('Please enter card number', 'error');
+                        if (cardNumber) cardNumber.focus();
                         return false;
                     }
+                    
+                    if (!expiryDate || !expiryDate.value.trim()) {
+                        showNotification('Please enter expiry date', 'error');
+                        if (expiryDate) expiryDate.focus();
+                        return false;
+                    }
+                    
+                    if (!cvv || !cvv.value.trim()) {
+                        showNotification('Please enter CVV', 'error');
+                        if (cvv) cvv.focus();
+                        return false;
+                    }
+                    
+                    if (!cardName || !cardName.value.trim()) {
+                        showNotification('Please enter cardholder name', 'error');
+                        if (cardName) cardName.focus();
+                        return false;
+                    }
+                    
+                    // Validate card number format
+                    const cardNum = cardNumber.value.replace(/\s/g, '');
+                    if (!/^\d{13,19}$/.test(cardNum)) {
+                        showNotification('Please enter a valid card number', 'error');
+                        cardNumber.focus();
+                        return false;
+                    }
+                    
+                    // Validate expiry format
+                    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate.value)) {
+                        showNotification('Please enter expiry in MM/YY format', 'error');
+                        expiryDate.focus();
+                        return false;
+                    }
+                    
+                    // Validate CVV format
+                    if (!/^\d{3,4}$/.test(cvv.value)) {
+                        showNotification('Please enter a valid CVV', 'error');
+                        cvv.focus();
+                        return false;
+                    }
+                    
+                } else {
+                    showNotification('Please select a payment method', 'error');
+                    return false;
                 }
+                
+                console.log('Step 3 validation passed');
                 return true;
                 
             default:
@@ -834,7 +933,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleFormSubmit(e) {
         e.preventDefault();
         
+        // Final validation before processing
         if (!validateCurrentStep()) {
+            return;
+        }
+        
+        // Ensure all required data is present
+        if (!selectedService || !selectedDate || !selectedTimeSlot) {
+            showNotification('Please complete all booking details', 'error');
             return;
         }
         
@@ -844,22 +950,40 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         if (selectedPaymentMethod === 'upi') {
-            paymentDetails.upiId = document.getElementById('upiId').value.trim();
+            const upiInput = document.getElementById('upiId');
+            if (!upiInput || !upiInput.value.trim()) {
+                showNotification('Please enter your UPI ID', 'error');
+                return;
+            }
+            paymentDetails.upiId = upiInput.value.trim();
         } else {
-            paymentDetails.cardNumber = document.getElementById('cardNumber').value.trim();
-            paymentDetails.expiryDate = document.getElementById('expiryDate').value.trim();
-            paymentDetails.cvv = document.getElementById('cvv').value.trim();
-            paymentDetails.cardName = document.getElementById('cardName').value.trim();
+            const cardNumber = document.getElementById('cardNumber');
+            const expiryDate = document.getElementById('expiryDate');
+            const cvv = document.getElementById('cvv');
+            const cardName = document.getElementById('cardName');
+            
+            if (!cardNumber || !cardNumber.value.trim() ||
+                !expiryDate || !expiryDate.value.trim() ||
+                !cvv || !cvv.value.trim() ||
+                !cardName || !cardName.value.trim()) {
+                showNotification('Please fill in all card details', 'error');
+                return;
+            }
+            
+            paymentDetails.cardNumber = cardNumber.value.trim();
+            paymentDetails.expiryDate = expiryDate.value.trim();
+            paymentDetails.cvv = cvv.value.trim();
+            paymentDetails.cardName = cardName.value.trim();
         }
 
         // Collect form data
         const formData = {
             service: selectedService,
             customer: {
-                name: document.getElementById('customerName').value,
-                phone: document.getElementById('customerPhone').value,
-                address: document.getElementById('customerAddress').value,
-                notes: document.getElementById('serviceNotes').value
+                name: document.getElementById('customerName').value.trim(),
+                phone: document.getElementById('customerPhone').value.trim(),
+                address: document.getElementById('customerAddress').value.trim(),
+                notes: document.getElementById('serviceNotes').value.trim() || ''
             },
             booking: {
                 date: selectedDate,
@@ -868,6 +992,8 @@ document.addEventListener('DOMContentLoaded', function() {
             payment: paymentDetails,
             amount: selectedService.price
         };
+        
+        console.log('Processing booking with data:', formData);
         
         // Process booking
         processBooking(formData);
@@ -880,6 +1006,8 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.textContent = 'Processing Payment...';
         submitBtn.disabled = true;
         
+        console.log('Starting booking process for:', bookingData.service.name);
+        
         // Validate payment details one more time
         if (!validatePaymentDetails(bookingData.payment)) {
             submitBtn.textContent = originalText;
@@ -890,9 +1018,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Process payment first
         processPayment(bookingData)
             .then(paymentResult => {
+                console.log('Payment result:', paymentResult);
+                
                 if (paymentResult.success) {
                     // Generate order ID
                     const orderId = 'SRV' + Date.now().toString().slice(-6);
+                    console.log('Generated order ID:', orderId);
                     
                     // Store booking data
                     const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
@@ -902,26 +1033,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         status: 'confirmed',
                         paymentStatus: 'paid',
                         paymentId: paymentResult.paymentId,
+                        paymentMethod: paymentResult.method,
+                        transactionTime: paymentResult.transactionTime,
                         createdAt: new Date().toISOString(),
                         estimatedTime: getEstimatedTime(bookingData.service.id),
-                        scheduledDateTime: `${bookingData.booking.date} ${bookingData.booking.time}`
+                        scheduledDateTime: `${bookingData.booking.date} ${bookingData.booking.time}`,
+                        totalAmount: bookingData.amount
                     };
+                    
                     bookings.push(newBooking);
                     localStorage.setItem('bookings', JSON.stringify(bookings));
+                    
+                    console.log('Booking saved successfully:', newBooking);
                     
                     // Show success message
                     showSuccessModal(orderId, newBooking);
                     
                     // Reset form after successful booking
                     setTimeout(() => {
-                        document.getElementById('bookingForm').reset();
-                        currentStep = 1;
-                        updateSteps();
-                        updateButtonStates();
-                    }, 3000);
+                        resetBookingForm();
+                    }, 2000);
                     
                 } else {
-                    showNotification('Payment failed. Please try again.', 'error');
+                    console.error('Payment failed:', paymentResult.error);
+                    showNotification(`Payment failed: ${paymentResult.error || 'Unknown error'}`, 'error');
                 }
                 
                 // Reset button
@@ -930,14 +1065,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             })
             .catch(error => {
-                console.error('Booking error:', error);
-                showNotification('Booking failed. Please try again.', 'error');
+                console.error('Booking process error:', error);
+                showNotification(`Booking failed: ${error.message || 'Please try again'}`, 'error');
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
     }
     
+    function resetBookingForm() {
+        try {
+            // Reset form
+            const form = document.getElementById('bookingForm');
+            if (form) {
+                form.reset();
+            }
+            
+            // Reset variables
+            selectedDate = null;
+            selectedTimeSlot = null;
+            currentStep = 1;
+            
+            // Reset UI
+            updateSteps();
+            updateButtonStates();
+            updateSelectedService();
+            updateSummary();
+            
+            // Clear time slot selections
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Reset payment method
+            selectedPaymentMethod = 'card';
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.classList.remove('active');
+                if (method.dataset.method === 'card') {
+                    method.classList.add('active');
+                }
+            });
+            
+            updatePaymentInterface();
+            
+            console.log('Booking form reset successfully');
+            
+        } catch (error) {
+            console.error('Error resetting form:', error);
+        }
+    }
+    
     function validatePaymentDetails(payment) {
+        console.log('Validating payment details:', payment);
+        
+        if (!payment || !payment.method) {
+            showNotification('Please select a payment method', 'error');
+            return false;
+        }
+        
         if (payment.method === 'upi') {
             if (!payment.upiId || payment.upiId.trim() === '') {
                 showNotification('Please enter your UPI ID', 'error');
@@ -946,10 +1130,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
             if (!upiPattern.test(payment.upiId.trim())) {
-                showNotification('Please enter a valid UPI ID', 'error');
+                showNotification('Please enter a valid UPI ID (e.g., name@paytm)', 'error');
                 return false;
             }
-        } else {
+            
+            console.log('UPI validation passed');
+            
+        } else if (payment.method === 'card') {
             if (!payment.cardNumber || !payment.expiryDate || !payment.cvv || !payment.cardName) {
                 showNotification('Please fill in all card details', 'error');
                 return false;
@@ -957,8 +1144,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Basic card validation
             const cardNumber = payment.cardNumber.replace(/\s/g, '');
-            if (cardNumber.length < 13 || cardNumber.length > 19) {
-                showNotification('Please enter a valid card number', 'error');
+            if (cardNumber.length < 13 || cardNumber.length > 19 || !/^\d+$/.test(cardNumber)) {
+                showNotification('Please enter a valid card number (13-19 digits)', 'error');
                 return false;
             }
             
@@ -968,44 +1155,100 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             
-            if (payment.cvv.length < 3 || payment.cvv.length > 4) {
-                showNotification('Please enter a valid CVV', 'error');
+            // Check if expiry date is not in the past
+            const [month, year] = payment.expiryDate.split('/');
+            const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
+            const currentDate = new Date();
+            if (expiryDate < currentDate) {
+                showNotification('Card has expired. Please use a valid card', 'error');
                 return false;
             }
+            
+            if (payment.cvv.length < 3 || payment.cvv.length > 4 || !/^\d+$/.test(payment.cvv)) {
+                showNotification('Please enter a valid CVV (3-4 digits)', 'error');
+                return false;
+            }
+            
+            if (payment.cardName.trim().length < 2) {
+                showNotification('Please enter cardholder name', 'error');
+                return false;
+            }
+            
+            console.log('Card validation passed');
+            
+        } else {
+            showNotification('Invalid payment method selected', 'error');
+            return false;
         }
+        
         return true;
     }
     
     function processPayment(bookingData) {
-        return new Promise((resolve) => {
-            // Simulate payment processing
-            const paymentMethod = bookingData.payment.method;
-            const amount = bookingData.amount;
-            
-            console.log(`Processing ${paymentMethod} payment of ₹${amount}...`);
-            
-            // Show payment processing animation
-            showPaymentProcessing(paymentMethod);
-            
-            setTimeout(() => {
-                // Simulate successful payment (95% success rate)
-                const success = Math.random() > 0.05;
+        return new Promise((resolve, reject) => {
+            try {
+                const paymentMethod = bookingData.payment.method;
+                const amount = bookingData.amount;
                 
-                if (success) {
-                    const paymentId = 'PAY' + Date.now().toString() + Math.random().toString(36).substr(2, 5);
-                    resolve({
-                        success: true,
-                        paymentId: paymentId,
-                        amount: amount,
-                        method: paymentMethod
-                    });
+                console.log(`Processing ${paymentMethod} payment of ₹${amount}...`);
+                
+                // Validate payment details one more time
+                if (paymentMethod === 'upi') {
+                    const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
+                    if (!upiPattern.test(bookingData.payment.upiId)) {
+                        reject(new Error('Invalid UPI ID format'));
+                        return;
+                    }
                 } else {
-                    resolve({
-                        success: false,
-                        error: 'Payment declined'
-                    });
+                    // Validate card details
+                    const cardNumber = bookingData.payment.cardNumber.replace(/\s/g, '');
+                    if (cardNumber.length < 13 || cardNumber.length > 19 || !/^\d+$/.test(cardNumber)) {
+                        reject(new Error('Invalid card number'));
+                        return;
+                    }
+                    
+                    const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+                    if (!expiryPattern.test(bookingData.payment.expiryDate)) {
+                        reject(new Error('Invalid expiry date format (MM/YY)'));
+                        return;
+                    }
+                    
+                    if (bookingData.payment.cvv.length < 3 || bookingData.payment.cvv.length > 4 || !/^\d+$/.test(bookingData.payment.cvv)) {
+                        reject(new Error('Invalid CVV'));
+                        return;
+                    }
                 }
-            }, 3000);
+                
+                // Show payment processing animation
+                showPaymentProcessing(paymentMethod);
+                
+                setTimeout(() => {
+                    // Simulate successful payment (95% success rate)
+                    const success = Math.random() > 0.05;
+                    
+                    if (success) {
+                        const paymentId = 'PAY' + Date.now().toString() + Math.random().toString(36).substr(2, 5);
+                        console.log('Payment successful:', paymentId);
+                        resolve({
+                            success: true,
+                            paymentId: paymentId,
+                            amount: amount,
+                            method: paymentMethod,
+                            transactionTime: new Date().toISOString()
+                        });
+                    } else {
+                        console.log('Payment failed - simulated failure');
+                        resolve({
+                            success: false,
+                            error: 'Payment declined by bank'
+                        });
+                    }
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Payment processing error:', error);
+                reject(error);
+            }
         });
     }
     
@@ -1065,6 +1308,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showSuccessModal(orderId, bookingDetails) {
+        // Remove any existing success modal
+        const existingModal = document.getElementById('successModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
         const scheduledDate = new Date(bookingDetails.booking.date);
         const formattedDate = scheduledDate.toLocaleDateString('en-IN', {
             weekday: 'long',
@@ -1075,7 +1324,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formattedTime = convertTo12Hour(bookingDetails.booking.time);
         
         const modalHtml = `
-            <div class="modal fade" id="successModal" tabindex="-1">
+            <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-success text-white">
@@ -1091,6 +1340,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                                 <h4 class="text-success">Payment Successful!</h4>
                                 <p class="lead">Your booking has been confirmed</p>
+                                <div class="alert alert-info">
+                                    <strong>Order ID:</strong> ${orderId}
+                                </div>
                             </div>
                             
                             <div class="booking-confirmation-details">
@@ -1098,10 +1350,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="col-md-6">
                                         <div class="detail-card">
                                             <h6><i class="fas fa-receipt me-2"></i>Booking Details</h6>
-                                            <p><strong>Order ID:</strong> ${orderId}</p>
                                             <p><strong>Service:</strong> ${bookingDetails.service.name}</p>
-                                            <p><strong>Amount Paid:</strong> ₹${bookingDetails.amount}</p>
-                                            <p><strong>Payment Method:</strong> ${bookingDetails.payment.method === 'upi' ? 'UPI' : 'Card'}</p>
+                                            <p><strong>Amount Paid:</strong> ₹${bookingDetails.totalAmount || bookingDetails.amount}</p>
+                                            <p><strong>Payment Method:</strong> ${bookingDetails.paymentMethod === 'upi' ? 'UPI' : 'Credit/Debit Card'}</p>
+                                            <p><strong>Payment ID:</strong> ${bookingDetails.paymentId}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -1112,6 +1364,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <p><strong>Duration:</strong> ${bookingDetails.estimatedTime}</p>
                                             <p><strong>Status:</strong> <span class="badge bg-success">Confirmed</span></p>
                                         </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="customer-details mt-3">
+                                    <div class="detail-card">
+                                        <h6><i class="fas fa-user me-2"></i>Customer Details</h6>
+                                        <p><strong>Name:</strong> ${bookingDetails.customer.name}</p>
+                                        <p><strong>Phone:</strong> ${bookingDetails.customer.phone}</p>
+                                        <p><strong>Address:</strong> ${bookingDetails.customer.address}</p>
                                     </div>
                                 </div>
                                 
@@ -1133,6 +1394,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             <button type="button" class="btn btn-outline-secondary" onclick="goHome()">
                                 <i class="fas fa-home me-2"></i>Go Home
                             </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i>Close
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1140,13 +1404,20 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         document.body.insertAdjacentHTML('beforeend', modalHtml);
-        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+        
+        // Initialize and show modal
+        const modalElement = document.getElementById('successModal');
+        const modal = new bootstrap.Modal(modalElement);
+        
+        // Show modal
         modal.show();
         
-        // Auto close after 10 seconds
-        setTimeout(() => {
-            modal.hide();
-        }, 10000);
+        // Clean up when modal is hidden
+        modalElement.addEventListener('hidden.bs.modal', function () {
+            modalElement.remove();
+        });
+        
+        console.log('Success modal displayed for order:', orderId);
     }
 
     window.goToOrders = function() {

@@ -888,6 +888,151 @@
     color: var(--gray-900);
 }
 
+/* Form validation styles */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Button loading state */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+/* Enhanced payment processing animation */
+.payment-processing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.payment-processing-content {
+    background: var(--white);
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideInUp 0.4s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.processing-animation {
+    margin-bottom: 1.5rem;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+.payment-processing-content h4 {
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.payment-processing-content p {
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+}
+
+.processing-steps {
+    text-align: left;
+    background: var(--gray-50);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    opacity: 0.4;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.step-item.active {
+    opacity: 1;
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.step-item i {
+    width: 20px;
+    font-size: 1.1rem;
+}
+
+/* Customer details in success modal */
+.customer-details .detail-card {
+    background: var(--light-bg);
+}
+
+/* Alert styles for order ID */
+.alert-info {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: none;
+    color: #1565c0;
+    font-weight: 600;
+}
+
 /* Enhanced notification styles */
 .notification {
     font-family: 'Inter', sans-serif;
