@@ -4,10 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentFilter = 'all';
     let currentSort = 'newest';
 
-    // Clear all existing orders first
-    localStorage.removeItem('bookings');
-    localStorage.removeItem('orders');
-    
     // Initialize orders page
     initializeOrders();
     initializeFilters();
@@ -128,10 +124,91 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to create test orders for demonstration
+    function createTestOrders() {
+        const testOrders = [
+            {
+                id: 'ORD-' + Date.now() + '-1',
+                service: {
+                    name: 'AC Service & Repair',
+                    description: 'Professional AC cleaning and maintenance service',
+                    image: '../assets/services/ac_service.jpg'
+                },
+                customer: {
+                    name: 'John Doe',
+                    phone: '+91 9876543210',
+                    address: '123 Main Street, Delhi',
+                    notes: 'AC not cooling properly'
+                },
+                booking: {
+                    date: new Date().toISOString().split('T')[0],
+                    time: '10:00'
+                },
+                amount: 1500,
+                status: 'confirmed',
+                createdAt: new Date().toISOString(),
+                paymentMethod: 'Online Payment',
+                paymentStatus: 'Paid'
+            },
+            {
+                id: 'ORD-' + Date.now() + '-2',
+                service: {
+                    name: 'House Cleaning',
+                    description: 'Complete house cleaning service',
+                    image: '../assets/services/bathroom_cleaning.jpg'
+                },
+                customer: {
+                    name: 'Jane Smith',
+                    phone: '+91 9876543211',
+                    address: '456 Park Avenue, Mumbai',
+                    notes: 'Deep cleaning required'
+                },
+                booking: {
+                    date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    time: '14:00'
+                },
+                amount: 2500,
+                status: 'pending',
+                createdAt: new Date().toISOString(),
+                paymentMethod: 'Cash on Delivery',
+                paymentStatus: 'Pending'
+            },
+            {
+                id: 'ORD-' + Date.now() + '-3',
+                service: {
+                    name: 'Leaky Faucet Repair',
+                    description: 'Fix minor leaks in faucets and pipes',
+                    image: '../assets/faucet_images.png'
+                },
+                customer: {
+                    name: 'Mike Johnson',
+                    phone: '+91 9876543212',
+                    address: '789 Oak Street, Bangalore',
+                    notes: 'Kitchen faucet dripping'
+                },
+                booking: {
+                    date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    time: '16:00'
+                },
+                amount: 500,
+                status: 'completed',
+                createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+                paymentMethod: 'Cash on Delivery',
+                paymentStatus: 'Paid'
+            }
+        ];
+        
+        localStorage.setItem('bookings', JSON.stringify(testOrders));
+        allOrders = testOrders;
+        showNotification('Test orders created successfully!', 'success');
+        filterAndDisplayOrders();
+    }
+
     // Make cleanup functions globally accessible
     window.clearAllOrders = clearAllOrders;
     window.clearCompletedOrders = clearCompletedOrders;
     window.clearOldOrders = clearOldOrders;
+    window.createTestOrders = createTestOrders;
 
     function loadOrders() {
         console.log('Loading orders from localStorage...');
@@ -140,62 +217,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const storedOrders = JSON.parse(localStorage.getItem('bookings') || '[]');
         console.log('Raw stored orders:', storedOrders);
         
-        // If no orders exist, create some demo orders for testing
+        // Use stored orders or create demo orders if none exist
         if (storedOrders.length === 0) {
-            console.log('No orders found, creating demo orders...');
-            const demoOrders = [
-                {
-                    id: 'ORD-' + Date.now() + '-1',
-                    service: {
-                        name: 'AC Service & Repair',
-                        description: 'Professional AC cleaning and maintenance service',
-                        image: '../assets/services/ac_service.jpg'
-                    },
-                    customer: {
-                        name: 'John Doe',
-                        phone: '+91 9876543210',
-                        address: '123 Main Street, Delhi',
-                        notes: 'AC not cooling properly'
-                    },
-                    booking: {
-                        date: new Date().toISOString().split('T')[0],
-                        time: '10:00'
-                    },
-                    amount: 1500,
-                    status: 'confirmed',
-                    createdAt: new Date().toISOString(),
-                    paymentMethod: 'Online Payment',
-                    paymentStatus: 'Paid'
-                },
-                {
-                    id: 'ORD-' + Date.now() + '-2',
-                    service: {
-                        name: 'House Cleaning',
-                        description: 'Complete house cleaning service',
-                        image: '../assets/services/bathroom_cleaning.jpg'
-                    },
-                    customer: {
-                        name: 'Jane Smith',
-                        phone: '+91 9876543211',
-                        address: '456 Park Avenue, Mumbai',
-                        notes: 'Deep cleaning required'
-                    },
-                    booking: {
-                        date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        time: '14:00'
-                    },
-                    amount: 2500,
-                    status: 'pending',
-                    createdAt: new Date().toISOString(),
-                    paymentMethod: 'Cash on Delivery',
-                    paymentStatus: 'Pending'
-                }
-            ];
-            
-            localStorage.setItem('bookings', JSON.stringify(demoOrders));
-            allOrders = demoOrders;
+            console.log('No orders found, you can browse services to create new orders');
+            allOrders = [];
         } else {
             allOrders = storedOrders;
+            console.log('Found existing orders:', allOrders.length);
         }
         
         console.log('Loaded orders count:', allOrders.length);
