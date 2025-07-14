@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 100,
                 rating: 4.9,
                 reviews: 120,
-                image: '../assets/cleaning_tools.png',
+                image: 'https://www.balajicleaningagency.com/img/service/Untitled-02.jpg',
                 category: 'cleaning',
                 features: ['Eco-friendly products', 'All rooms covered', 'Bathroom deep clean', 'Kitchen sanitization'],
                 duration: '3-4 hours'
