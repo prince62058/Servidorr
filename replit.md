@@ -133,6 +133,14 @@ The application is designed to be easily extended with backend services while ma
 
 ## Recent Updates
 
+**July 14, 2025 - Enhanced Sub-Service Selection in Booking:**
+- Added expandable service cards with sub-service options in booking modal
+- Implemented direct sub-service selection with one-click booking
+- Enhanced CSS styling for smooth animations and better UX
+- Sub-services include specific options like Kitchen Faucet Repair, Electric Water Heater, etc.
+- Added visual feedback with hover effects and expand/collapse animations
+- Improved service selection flow for clearer user experience
+
 **July 11, 2025 - Enhanced Order Cancel Feature:**
 - Enhanced existing cancel functionality with improved UI/UX
 - Added proper form validation with error feedback

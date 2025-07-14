@@ -65,7 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'Fix minor leaks in faucets and pipes',
                 price: 50,
                 image: '../assets/faucet_images.png',
-                category: 'repair'
+                category: 'repair',
+                subServices: [
+                    'Kitchen Faucet Repair',
+                    'Bathroom Faucet Repair', 
+                    'Garden Tap Repair',
+                    'Shower Head Repair'
+                ]
             },
             {
                 id: 2,
@@ -73,7 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'Install new water heater systems',
                 price: 100,
                 image: '../assets/water_heater.png',
-                category: 'repair'
+                category: 'repair',
+                subServices: [
+                    'Electric Water Heater',
+                    'Gas Water Heater',
+                    'Solar Water Heater',
+                    'Instant Water Heater'
+                ]
             },
             {
                 id: 3,
@@ -81,7 +93,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'Install and replace ceiling fans',
                 price: 75,
                 image: '../assets/fan_image.png',
-                category: 'repair'
+                category: 'repair',
+                subServices: [
+                    'Ceiling Fan Installation',
+                    'Table Fan Repair',
+                    'Exhaust Fan Installation',
+                    'Stand Fan Repair'
+                ]
             },
             {
                 id: 4,
@@ -89,7 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'Deep cleaning of entire house',
                 price: 100,
                 image: '../assets/cleaning_tools.png',
-                category: 'cleaning'
+                category: 'cleaning',
+                subServices: [
+                    'Deep House Cleaning',
+                    'Kitchen Deep Clean',
+                    'Bathroom Deep Clean',
+                    'Carpet Cleaning'
+                ]
             },
             {
                 id: 5,
@@ -97,20 +121,114 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'Professional hairstyling at home',
                 price: 50,
                 image: '../assets/barbar_image.png',
-                category: 'beauty'
+                category: 'beauty',
+                subServices: [
+                    'Men\'s Haircut',
+                    'Women\'s Haircut',
+                    'Beard Trimming',
+                    'Hair Styling'
+                ]
             }
         ];
 
         const serviceGrid = document.getElementById('serviceGrid');
         serviceGrid.innerHTML = services.map(service => `
-            <div class="service-card-mini" onclick="selectService(${service.id})">
-                <img src="${service.image}" alt="${service.name}">
-                <h6>${service.name}</h6>
-                <p>${service.description}</p>
-                <div class="price">₹${service.price}</div>
+            <div class="service-card-main" data-service-id="${service.id}">
+                <div class="service-header" onclick="selectService(${service.id})">
+                    <img src="${service.image}" alt="${service.name}">
+                    <div class="service-main-info">
+                        <h6>${service.name}</h6>
+                        <p>${service.description}</p>
+                        <div class="price">Starting from ₹${service.price}</div>
+                    </div>
+                    <i class="fas fa-chevron-down expand-icon"></i>
+                </div>
+                <div class="sub-services">
+                    ${service.subServices.map(subService => `
+                        <div class="sub-service-item" onclick="selectSubService(${service.id}, '${subService}')">
+                            <i class="fas fa-arrow-right"></i>
+                            <span>${subService}</span>
+                            <span class="sub-price">₹${service.price}</span>
+                        </div>
+                    `).join('')}
+                </div>
             </div>
         `).join('');
+
+        // Add click handlers for expanding/collapsing
+        document.querySelectorAll('.service-header').forEach(header => {
+            header.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.service-card-main');
+                const isExpanded = card.classList.contains('expanded');
+                
+                // Close all other cards
+                document.querySelectorAll('.service-card-main').forEach(c => c.classList.remove('expanded'));
+                
+                // Toggle current card
+                if (!isExpanded) {
+                    card.classList.add('expanded');
+                }
+            });
+        });
     }
+
+    // Function to select sub-service directly
+    window.selectSubService = function(serviceId, subServiceName) {
+        const services = [
+            {
+                id: 1,
+                name: 'Leaky Faucet Repair',
+                description: 'Fix minor leaks in faucets and pipes',
+                price: 50,
+                image: '../assets/faucet_images.png'
+            },
+            {
+                id: 2,
+                name: 'Water Heater Installation',
+                description: 'Install new water heater systems',
+                price: 100,
+                image: '../assets/water_heater.png'
+            },
+            {
+                id: 3,
+                name: 'Fan Installation',
+                description: 'Install and replace ceiling fans',
+                price: 75,
+                image: '../assets/fan_image.png'
+            },
+            {
+                id: 4,
+                name: 'Full Home Cleaning',
+                description: 'Deep cleaning of entire house',
+                price: 100,
+                image: '../assets/cleaning_tools.png'
+            },
+            {
+                id: 5,
+                name: 'Haircut & Styling',
+                description: 'Professional hairstyling at home',
+                price: 50,
+                image: '../assets/barbar_image.png'
+            }
+        ];
+
+        const baseService = services.find(s => s.id === serviceId);
+        selectedService = {
+            ...baseService,
+            name: subServiceName,
+            description: `Professional ${subServiceName.toLowerCase()} service`
+        };
+        
+        updateSelectedService();
+        updateSummary();
+        
+        // Close modal and show confirmation
+        const modal = bootstrap.Modal.getInstance(document.getElementById('serviceModal'));
+        modal.hide();
+        
+        showNotification(`${subServiceName} selected successfully!`, 'success');
+    };
 
     window.selectService = function(serviceId) {
         const services = [
