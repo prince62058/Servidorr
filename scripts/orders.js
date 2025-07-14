@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentFilter = 'all';
     let currentSort = 'newest';
 
+    // Clear all existing orders first
+    localStorage.removeItem('bookings');
+    localStorage.removeItem('orders');
+    
     // Initialize orders page
     initializeOrders();
     initializeFilters();
@@ -133,68 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Load orders from localStorage
         const storedOrders = JSON.parse(localStorage.getItem('bookings') || '[]');
         
-        // Add some demo orders if none exist
-        if (storedOrders.length === 0) {
-            const demoOrders = [
-                {
-                    id: 'ORD123456',
-                    service: {
-                        name: 'AC Repair',
-                        description: 'Fix and service air conditioning units',
-                        price: 75,
-                        image: '../assets/ac_image.png'
-                    },
-                    customer: {
-                        name: 'John Doe',
-                        phone: '+91 9876543210',
-                        address: '123 Main Street, City'
-                    },
-                    booking: {
-                        date: '2024-07-15',
-                        time: '14:00'
-                    },
-                    status: 'completed',
-                    amount: 75,
-                    createdAt: '2024-07-10T10:30:00Z',
-                    completedAt: '2024-07-15T16:30:00Z',
-                    provider: {
-                        name: 'Rajesh Kumar',
-                        phone: '+91 9876543211',
-                        rating: 4.8
-                    }
-                },
-                {
-                    id: 'ORD123457',
-                    service: {
-                        name: 'Full Home Cleaning',
-                        description: 'Deep cleaning of entire house',
-                        price: 100,
-                        image: '../assets/cleaning_tools.png'
-                    },
-                    customer: {
-                        name: 'John Doe',
-                        phone: '+91 9876543210',
-                        address: '123 Main Street, City'
-                    },
-                    booking: {
-                        date: '2024-07-12',
-                        time: '10:00'
-                    },
-                    status: 'in-progress',
-                    amount: 100,
-                    createdAt: '2024-07-11T09:15:00Z',
-                    provider: {
-                        name: 'Priya Sharma',
-                        phone: '+91 9876543212',
-                        rating: 4.9
-                    }
-                }
-            ];
-            localStorage.setItem('bookings', JSON.stringify(demoOrders));
-            allOrders = demoOrders;
-        } else {
-            allOrders = storedOrders;
-        }
+        // Start with empty orders array - no demo orders
+        allOrders = storedOrders;
 
         showClearOrdersButton();
         filterAndDisplayOrders();
