@@ -10,18 +10,49 @@ document.addEventListener('DOMContentLoaded', function() {
     loadAddresses();
     loadPaymentMethods();
     initializeFAQ();
+    checkUserSession();
 
     function initializeProfile() {
-        // Load user data from localStorage or default
-        userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john@example.com',
-            phone: '+91 9876543210',
-            dateOfBirth: '',
-            gender: '',
-            avatar: '../assets/default-avatar.png'
-        };
+        // Check if user is logged in
+        const userSession = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+        
+        if (userSession) {
+            try {
+                const sessionData = JSON.parse(userSession);
+                const sessionUser = sessionData.user;
+                
+                // Load user profile from localStorage or create from session
+                userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
+                    firstName: sessionUser.name ? sessionUser.name.split(' ')[0] : 'User',
+                    lastName: sessionUser.name ? sessionUser.name.split(' ').slice(1).join(' ') : '',
+                    email: sessionUser.email || 'user@example.com',
+                    phone: '+91 9876543210',
+                    dateOfBirth: '',
+                    gender: '',
+                    avatar: '../assets/default-avatar.png'
+                };
+                
+                // Update profile with session data
+                if (sessionUser.name) {
+                    const nameParts = sessionUser.name.split(' ');
+                    userProfile.firstName = nameParts[0];
+                    userProfile.lastName = nameParts.slice(1).join(' ');
+                }
+                if (sessionUser.email) {
+                    userProfile.email = sessionUser.email;
+                }
+                
+            } catch (error) {
+                console.error('Error loading session:', error);
+                // Redirect to login if session is invalid
+                window.location.href = 'login.html';
+                return;
+            }
+        } else {
+            // No session, redirect to login
+            window.location.href = 'login.html';
+            return;
+        }
 
         updateProfileDisplay();
     }
@@ -328,6 +359,48 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 5000);
     }
+
+    // User session management
+    function checkUserSession() {
+        const userSession = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+        
+        if (userSession) {
+            try {
+                const sessionData = JSON.parse(userSession);
+                updateNavigationForLoggedInUser(sessionData.user);
+            } catch (error) {
+                console.error('Error parsing user session:', error);
+            }
+        }
+    }
+    
+    // Update navigation for logged in user
+    function updateNavigationForLoggedInUser(user) {
+        const loginNavItem = document.getElementById('loginNavItem');
+        const userProfileNavItem = document.getElementById('userProfileNavItem');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        
+        if (loginNavItem && userProfileNavItem) {
+            loginNavItem.style.display = 'none';
+            userProfileNavItem.style.display = 'block';
+            
+            if (userNameDisplay) {
+                userNameDisplay.textContent = user.name || 'Profile';
+            }
+        }
+    }
+    
+    // Global logout function
+    window.logout = function() {
+        localStorage.removeItem('userSession');
+        sessionStorage.removeItem('userSession');
+        
+        showNotification('Logged out successfully', 'success');
+        
+        setTimeout(() => {
+            window.location.href = '../index.html';
+        }, 1000);
+    };
 
     console.log('Profile page initialized successfully!');
 });

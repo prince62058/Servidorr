@@ -773,6 +773,71 @@ document.addEventListener('DOMContentLoaded', function() {
                             serviceCategorySelect.value = 'plumbing';
                         } else if (titleLower.includes('electric')) {
                             serviceCategorySelect.value = 'electrical';
+                        }
+                    }
+                }, 100);
+            }
+        });
+    });
+    
+    // User session management
+    function checkUserSession() {
+        const userSession = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+        
+        if (userSession) {
+            try {
+                const sessionData = JSON.parse(userSession);
+                updateNavigationForLoggedInUser(sessionData.user);
+            } catch (error) {
+                console.error('Error parsing user session:', error);
+                // Clear invalid session
+                localStorage.removeItem('userSession');
+                sessionStorage.removeItem('userSession');
+            }
+        }
+    }
+    
+    // Update navigation for logged in user
+    function updateNavigationForLoggedInUser(user) {
+        const loginNavItem = document.getElementById('loginNavItem');
+        const userProfileNavItem = document.getElementById('userProfileNavItem');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        
+        if (loginNavItem && userProfileNavItem) {
+            loginNavItem.style.display = 'none';
+            userProfileNavItem.style.display = 'block';
+            
+            if (userNameDisplay) {
+                userNameDisplay.textContent = user.name || 'Profile';
+            }
+        }
+    }
+    
+    // Global logout function
+    window.logout = function() {
+        localStorage.removeItem('userSession');
+        sessionStorage.removeItem('userSession');
+        
+        // Reset navigation
+        const loginNavItem = document.getElementById('loginNavItem');
+        const userProfileNavItem = document.getElementById('userProfileNavItem');
+        
+        if (loginNavItem && userProfileNavItem) {
+            loginNavItem.style.display = 'block';
+            userProfileNavItem.style.display = 'none';
+        }
+        
+        // Show logout notification
+        showNotification('Logged out successfully', 'success');
+        
+        // Redirect to home page
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1000);
+    };
+    
+    // Initialize user session check
+    checkUserSession();
                         } else if (titleLower.includes('clean')) {
                             serviceCategorySelect.value = 'cleaning';
                         } else if (titleLower.includes('beauty') || titleLower.includes('wellness')) {

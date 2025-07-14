@@ -43,7 +43,27 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="orders.html">Orders</a>
                     </li>
-
+                    <li class="nav-item" id="loginNavItem">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item dropdown" id="userProfileNavItem" style="display: none;">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i>
+                            <span id="userNameDisplay">Profile</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profile.html">
+                                <i class="fas fa-user"></i> My Profile
+                            </a></li>
+                            <li><a class="dropdown-item" href="orders.html">
+                                <i class="fas fa-shopping-bag"></i> My Orders
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

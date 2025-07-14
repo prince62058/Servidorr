@@ -656,5 +656,50 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 
+    // User session management
+    function checkUserSession() {
+        const userSession = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+        
+        if (userSession) {
+            try {
+                const sessionData = JSON.parse(userSession);
+                updateNavigationForLoggedInUser(sessionData.user);
+            } catch (error) {
+                console.error('Error parsing user session:', error);
+            }
+        }
+    }
+    
+    // Update navigation for logged in user
+    function updateNavigationForLoggedInUser(user) {
+        const loginNavItem = document.getElementById('loginNavItem');
+        const userProfileNavItem = document.getElementById('userProfileNavItem');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        
+        if (loginNavItem && userProfileNavItem) {
+            loginNavItem.style.display = 'none';
+            userProfileNavItem.style.display = 'block';
+            
+            if (userNameDisplay) {
+                userNameDisplay.textContent = user.name || 'Profile';
+            }
+        }
+    }
+    
+    // Global logout function
+    window.logout = function() {
+        localStorage.removeItem('userSession');
+        sessionStorage.removeItem('userSession');
+        
+        showNotification('Logged out successfully', 'success');
+        
+        setTimeout(() => {
+            window.location.href = '../index.html';
+        }, 1000);
+    };
+    
+    // Initialize user session check
+    checkUserSession();
+
     console.log('Orders page initialized successfully!');
 });
