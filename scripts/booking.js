@@ -32,7 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('serviceDate').setAttribute('min', today);
+    const serviceDateInput = document.getElementById('serviceDate');
+    if (serviceDateInput) {
+        serviceDateInput.setAttribute('min', today);
+        serviceDateInput.addEventListener('change', function() {
+            selectedDate = this.value;
+            updateSummary();
+            console.log('Date selected:', selectedDate);
+        });
+    }
 
     function initializeBookingForm() {
         // Update service display
@@ -46,7 +54,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Form validation
         const form = document.getElementById('bookingForm');
-        form.addEventListener('submit', handleFormSubmit);
+        if (form) {
+            form.addEventListener('submit', handleFormSubmit);
+            console.log('Form submit handler attached successfully');
+        } else {
+            console.error('Booking form not found!');
+        }
+        
+        // Also attach click handler to submit button directly
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Submit button clicked');
+                handleFormSubmit(e);
+            });
+            console.log('Submit button click handler attached');
+        }
 
         // Update button states
         updateButtonStates();
@@ -932,14 +956,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleFormSubmit(e) {
         e.preventDefault();
+        console.log('Form submit handler called');
+        console.log('Current step:', currentStep);
+        console.log('Selected service:', selectedService);
+        console.log('Selected date:', selectedDate);
+        console.log('Selected time:', selectedTimeSlot);
 
         // Final validation before processing
         if (!validateCurrentStep()) {
+            console.log('Current step validation failed');
             return;
         }
 
         // Ensure all required data is present
         if (!selectedService || !selectedDate || !selectedTimeSlot) {
+            console.log('Missing required data - Service:', selectedService, 'Date:', selectedDate, 'Time:', selectedTimeSlot);
             showNotification('Please complete all booking details', 'error');
             return;
         }
@@ -1446,8 +1477,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize with console log for debugging
-    console.log('Booking system initialized successfully!');
+    // Global error handler for debugging
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        console.error('Error message:', e.message);
+        console.error('Error source:', e.filename, 'line', e.lineno);
+    });
 
     window.goToOrders = function() {
         window.location.href = 'orders.html';
@@ -1478,4 +1513,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     console.log('Booking system initialized successfully!');
+    
+    // Test button click handler for debugging
+    window.testBookingSubmit = function() {
+        console.log('Testing booking submission...');
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.click();
+        }
+    };
 });
