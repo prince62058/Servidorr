@@ -877,56 +877,262 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show loading state
         const submitBtn = document.getElementById('submitBtn');
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Processing...';
+        submitBtn.textContent = 'Processing Payment...';
         submitBtn.disabled = true;
         
-        // Simulate API call
-        setTimeout(() => {
-            // Generate order ID
-            const orderId = 'ORD' + Date.now().toString().slice(-6);
-            
-            // Store booking data in localStorage (in real app, this would be sent to server)
-            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            const newBooking = {
-                id: orderId,
-                ...bookingData,
-                status: 'confirmed',
-                createdAt: new Date().toISOString(),
-                estimatedTime: '2-4 hours'
-            };
-            bookings.push(newBooking);
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-            
-            // Show success message
-            showSuccessModal(orderId);
-            
-            // Reset button
+        // Validate payment details one more time
+        if (!validatePaymentDetails(bookingData.payment)) {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
+            return;
+        }
+        
+        // Process payment first
+        processPayment(bookingData)
+            .then(paymentResult => {
+                if (paymentResult.success) {
+                    // Generate order ID
+                    const orderId = 'SRV' + Date.now().toString().slice(-6);
+                    
+                    // Store booking data
+                    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                    const newBooking = {
+                        id: orderId,
+                        ...bookingData,
+                        status: 'confirmed',
+                        paymentStatus: 'paid',
+                        paymentId: paymentResult.paymentId,
+                        createdAt: new Date().toISOString(),
+                        estimatedTime: getEstimatedTime(bookingData.service.id),
+                        scheduledDateTime: `${bookingData.booking.date} ${bookingData.booking.time}`
+                    };
+                    bookings.push(newBooking);
+                    localStorage.setItem('bookings', JSON.stringify(bookings));
+                    
+                    // Show success message
+                    showSuccessModal(orderId, newBooking);
+                    
+                    // Reset form after successful booking
+                    setTimeout(() => {
+                        document.getElementById('bookingForm').reset();
+                        currentStep = 1;
+                        updateSteps();
+                        updateButtonStates();
+                    }, 3000);
+                    
+                } else {
+                    showNotification('Payment failed. Please try again.', 'error');
+                }
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+            })
+            .catch(error => {
+                console.error('Booking error:', error);
+                showNotification('Booking failed. Please try again.', 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+    }
+    
+    function validatePaymentDetails(payment) {
+        if (payment.method === 'upi') {
+            if (!payment.upiId || payment.upiId.trim() === '') {
+                showNotification('Please enter your UPI ID', 'error');
+                return false;
+            }
             
+            const upiPattern = /^[\w\.-]+@[\w\.-]+$/;
+            if (!upiPattern.test(payment.upiId.trim())) {
+                showNotification('Please enter a valid UPI ID', 'error');
+                return false;
+            }
+        } else {
+            if (!payment.cardNumber || !payment.expiryDate || !payment.cvv || !payment.cardName) {
+                showNotification('Please fill in all card details', 'error');
+                return false;
+            }
+            
+            // Basic card validation
+            const cardNumber = payment.cardNumber.replace(/\s/g, '');
+            if (cardNumber.length < 13 || cardNumber.length > 19) {
+                showNotification('Please enter a valid card number', 'error');
+                return false;
+            }
+            
+            const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            if (!expiryPattern.test(payment.expiryDate)) {
+                showNotification('Please enter expiry date in MM/YY format', 'error');
+                return false;
+            }
+            
+            if (payment.cvv.length < 3 || payment.cvv.length > 4) {
+                showNotification('Please enter a valid CVV', 'error');
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    function processPayment(bookingData) {
+        return new Promise((resolve) => {
+            // Simulate payment processing
+            const paymentMethod = bookingData.payment.method;
+            const amount = bookingData.amount;
+            
+            console.log(`Processing ${paymentMethod} payment of ₹${amount}...`);
+            
+            // Show payment processing animation
+            showPaymentProcessing(paymentMethod);
+            
+            setTimeout(() => {
+                // Simulate successful payment (95% success rate)
+                const success = Math.random() > 0.05;
+                
+                if (success) {
+                    const paymentId = 'PAY' + Date.now().toString() + Math.random().toString(36).substr(2, 5);
+                    resolve({
+                        success: true,
+                        paymentId: paymentId,
+                        amount: amount,
+                        method: paymentMethod
+                    });
+                } else {
+                    resolve({
+                        success: false,
+                        error: 'Payment declined'
+                    });
+                }
+            }, 3000);
+        });
+    }
+    
+    function showPaymentProcessing(method) {
+        const processingHtml = `
+            <div class="payment-processing-overlay" id="paymentProcessing">
+                <div class="payment-processing-content">
+                    <div class="processing-animation">
+                        <div class="spinner"></div>
+                    </div>
+                    <h4>Processing ${method === 'upi' ? 'UPI' : 'Card'} Payment</h4>
+                    <p>Please wait while we process your payment...</p>
+                    <div class="processing-steps">
+                        <div class="step-item active">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Validating payment details</span>
+                        </div>
+                        <div class="step-item" id="step2">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Securing transaction</span>
+                        </div>
+                        <div class="step-item" id="step3">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Confirming payment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', processingHtml);
+        
+        // Animate steps
+        setTimeout(() => {
+            document.getElementById('step2').classList.add('active');
+        }, 1000);
+        
+        setTimeout(() => {
+            document.getElementById('step3').classList.add('active');
         }, 2000);
+        
+        setTimeout(() => {
+            const overlay = document.getElementById('paymentProcessing');
+            if (overlay) overlay.remove();
+        }, 3500);
+    }
+    
+    function getEstimatedTime(serviceId) {
+        const timeMap = {
+            1: '1-2 hours',
+            2: '2-3 hours', 
+            3: '3-4 hours',
+            4: '4-6 hours',
+            5: '1-2 hours'
+        };
+        return timeMap[serviceId] || '2-3 hours';
     }
 
-    function showSuccessModal(orderId) {
+    function showSuccessModal(orderId, bookingDetails) {
+        const scheduledDate = new Date(bookingDetails.booking.date);
+        const formattedDate = scheduledDate.toLocaleDateString('en-IN', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        const formattedTime = convertTo12Hour(bookingDetails.booking.time);
+        
         const modalHtml = `
             <div class="modal fade" id="successModal" tabindex="-1">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-success text-white">
-                            <h5 class="modal-title">Booking Confirmed!</h5>
+                            <h5 class="modal-title">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Booking Confirmed!
+                            </h5>
                         </div>
-                        <div class="modal-body text-center">
-                            <div class="mb-3">
-                                <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <div class="success-animation mb-3">
+                                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                                </div>
+                                <h4 class="text-success">Payment Successful!</h4>
+                                <p class="lead">Your booking has been confirmed</p>
                             </div>
-                            <h4>Your booking has been confirmed</h4>
-                            <p class="mb-3">Order ID: <strong>${orderId}</strong></p>
-                            <p>You will receive a confirmation SMS and email shortly.</p>
-                            <p>Our service provider will contact you before the scheduled time.</p>
+                            
+                            <div class="booking-confirmation-details">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="detail-card">
+                                            <h6><i class="fas fa-receipt me-2"></i>Booking Details</h6>
+                                            <p><strong>Order ID:</strong> ${orderId}</p>
+                                            <p><strong>Service:</strong> ${bookingDetails.service.name}</p>
+                                            <p><strong>Amount Paid:</strong> ₹${bookingDetails.amount}</p>
+                                            <p><strong>Payment Method:</strong> ${bookingDetails.payment.method === 'upi' ? 'UPI' : 'Card'}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-card">
+                                            <h6><i class="fas fa-calendar me-2"></i>Schedule</h6>
+                                            <p><strong>Date:</strong> ${formattedDate}</p>
+                                            <p><strong>Time:</strong> ${formattedTime}</p>
+                                            <p><strong>Duration:</strong> ${bookingDetails.estimatedTime}</p>
+                                            <p><strong>Status:</strong> <span class="badge bg-success">Confirmed</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="next-steps mt-4">
+                                    <h6><i class="fas fa-info-circle me-2"></i>What's Next?</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-sms text-primary me-2"></i>You will receive a confirmation SMS within 5 minutes</li>
+                                        <li><i class="fas fa-phone text-primary me-2"></i>Our service provider will call you 30 minutes before arrival</li>
+                                        <li><i class="fas fa-user-check text-primary me-2"></i>Service professional will arrive at your scheduled time</li>
+                                        <li><i class="fas fa-star text-primary me-2"></i>Rate your experience after service completion</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="goToOrders()">View Orders</button>
-                            <button type="button" class="btn btn-secondary" onclick="goHome()">Go Home</button>
+                            <button type="button" class="btn btn-primary" onclick="goToOrders()">
+                                <i class="fas fa-list me-2"></i>View My Orders
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="goHome()">
+                                <i class="fas fa-home me-2"></i>Go Home
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -936,6 +1142,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = new bootstrap.Modal(document.getElementById('successModal'));
         modal.show();
+        
+        // Auto close after 10 seconds
+        setTimeout(() => {
+            modal.hide();
+        }, 10000);
     }
 
     window.goToOrders = function() {
