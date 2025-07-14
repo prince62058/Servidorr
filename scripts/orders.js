@@ -25,18 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Update real-time status indicator
-    function updateRealTimeStatus() {
-        const statusElement = document.getElementById('realTimeStatus');
-        if (statusElement) {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            statusElement.innerHTML = `
-                <i class="fas fa-circle text-success"></i>
-                <span>Last updated: ${timeString}</span>
-            `;
-        }
-    }
+    
 
     function initializeOrders() {
         // Initialize filter tabs
@@ -231,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showClearOrdersButton();
         filterAndDisplayOrders();
-        updateRealTimeStatus();
     }
 
     function filterAndDisplayOrders() {
