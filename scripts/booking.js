@@ -567,10 +567,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceDescription = document.getElementById('serviceDescription');
         const servicePrice = document.getElementById('servicePrice');
         
-        if (serviceImage) serviceImage.src = selectedService.image;
+        if (serviceImage) {
+            serviceImage.src = selectedService.image;
+            serviceImage.alt = selectedService.name;
+        }
         if (serviceName) serviceName.textContent = selectedService.name;
         if (serviceDescription) serviceDescription.textContent = selectedService.description;
         if (servicePrice) servicePrice.textContent = `₹${selectedService.price}`;
+        
+        // Update booking header with service name
+        const bookingHeader = document.querySelector('.booking-header h2');
+        if (bookingHeader) {
+            bookingHeader.textContent = `Book ${selectedService.name}`;
+        }
         
         // Also update summary immediately
         updateSummary();
@@ -583,13 +592,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const summaryTotal = document.getElementById('summaryTotal');
         const summaryDate = document.getElementById('summaryDate');
         const summaryTime = document.getElementById('summaryTime');
+        const summaryDuration = document.getElementById('summaryDuration');
         
         if (summaryService) summaryService.textContent = selectedService.name;
         if (summaryTotal) summaryTotal.textContent = `₹${selectedService.price}`;
+        if (summaryDuration) summaryDuration.textContent = selectedService.duration || '1-2 hours';
         
         if (selectedDate && summaryDate) {
             const date = new Date(selectedDate);
-            summaryDate.textContent = date.toLocaleDateString('en-IN');
+            summaryDate.textContent = date.toLocaleDateString('en-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
         
         if (selectedTimeSlot && summaryTime) {
@@ -597,7 +613,49 @@ document.addEventListener('DOMContentLoaded', function() {
             summaryTime.textContent = time;
         }
         
+        // Update step 2 with current selections
+        updateStep2Summary();
+        
         console.log('Summary updated for service:', selectedService.name, 'Price:', selectedService.price);
+    }
+    
+    function updateStep2Summary() {
+        // Add booking summary to step 2 for better visibility
+        const step2 = document.querySelector('.form-step[data-step="2"]');
+        if (!step2) return;
+        
+        let summaryDiv = step2.querySelector('.current-booking-summary');
+        if (!summaryDiv) {
+            summaryDiv = document.createElement('div');
+            summaryDiv.className = 'current-booking-summary';
+            step2.insertBefore(summaryDiv, step2.querySelector('.datetime-selection'));
+        }
+        
+        summaryDiv.innerHTML = `
+            <div class="booking-summary-card">
+                <h5>Your Booking Details</h5>
+                <div class="summary-row">
+                    <span class="label">Service:</span>
+                    <span class="value">${selectedService.name}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Price:</span>
+                    <span class="value">₹${selectedService.price}</span>
+                </div>
+                ${selectedDate ? `
+                    <div class="summary-row">
+                        <span class="label">Date:</span>
+                        <span class="value">${new Date(selectedDate).toLocaleDateString('en-IN')}</span>
+                    </div>
+                ` : ''}
+                ${selectedTimeSlot ? `
+                    <div class="summary-row">
+                        <span class="label">Time:</span>
+                        <span class="value">${convertTo12Hour(selectedTimeSlot)}</span>
+                    </div>
+                ` : ''}
+            </div>
+        `;
     }
 
     function convertTo12Hour(time24) {
