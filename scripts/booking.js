@@ -540,6 +540,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#007bff'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
     function updateSteps() {
         // Update step indicators
         const steps = document.querySelectorAll('.step');
@@ -669,6 +703,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = new bootstrap.Modal(document.getElementById('successModal'));
         modal.show();
     }
+
+    window.goToOrders = function() {
+        window.location.href = 'orders.html';
+    };
+
+    window.goHome = function() {
+        window.location.href = '../index.html';
+    };
+
+    // Initialize with console log for debugging
+    console.log('Booking system initialized successfully!');
 
     window.goToOrders = function() {
         window.location.href = 'orders.html';
