@@ -58,10 +58,27 @@
                         <div>
                             <h1>Order History</h1>
                             <p>Track and manage your service bookings</p>
+                            <div class="real-time-status" id="realTimeStatus">
+                                <i class="fas fa-circle text-success"></i>
+                                <span>Real-time updates active</span>
+                            </div>
                         </div>
-                        <button id="clearOrdersBtn" class="btn btn-outline-danger" onclick="clearAllOrders()" style="display: none;">
-                            <i class="fas fa-trash"></i> Clear All Orders
-                        </button>
+                        <div class="dropdown" id="clearOrdersDropdown" style="display: none;">
+                            <button class="btn btn-outline-danger dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-trash"></i> Clear Orders
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="clearAllOrders()">
+                                    <i class="fas fa-trash-alt"></i> Clear All Orders
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="clearCompletedOrders()">
+                                    <i class="fas fa-check-circle"></i> Clear Completed Orders
+                                </a></li>
+                                <li><a class="dropdown-item" href="#" onclick="clearOldOrders()">
+                                    <i class="fas fa-clock"></i> Clear Old Orders (30+ days)
+                                </a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

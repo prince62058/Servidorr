@@ -8,6 +8,35 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeOrders();
     initializeFilters();
     loadOrders();
+    
+    // Start real-time updates every 5 seconds
+    let updateInterval = setInterval(loadOrders, 5000);
+    
+    // Auto-refresh when window becomes visible
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            loadOrders();
+            // Restart interval when tab becomes active
+            if (updateInterval) clearInterval(updateInterval);
+            updateInterval = setInterval(loadOrders, 5000);
+        } else {
+            // Stop updates when tab is hidden to save resources
+            if (updateInterval) clearInterval(updateInterval);
+        }
+    });
+    
+    // Update real-time status indicator
+    function updateRealTimeStatus() {
+        const statusElement = document.getElementById('realTimeStatus');
+        if (statusElement) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            statusElement.innerHTML = `
+                <i class="fas fa-circle text-success"></i>
+                <span>Last updated: ${timeString}</span>
+            `;
+        }
+    }
 
     function initializeOrders() {
         // Initialize filter tabs
@@ -47,21 +76,58 @@ document.addEventListener('DOMContentLoaded', function() {
             allOrders = [];
             displayOrders([]);
             showNotification('All orders have been cleared successfully!', 'success');
+            showClearOrdersButton();
+        }
+    }
+    
+    // Function to clear completed orders only
+    function clearCompletedOrders() {
+        if (confirm('Clear all completed orders?')) {
+            const remainingOrders = allOrders.filter(order => order.status !== 'completed');
+            localStorage.setItem('bookings', JSON.stringify(remainingOrders));
+            allOrders = remainingOrders;
+            showNotification('Completed orders cleared successfully!', 'success');
+            showClearOrdersButton();
+            filterAndDisplayOrders();
+        }
+    }
+    
+    // Function to clear old orders (older than 30 days)
+    function clearOldOrders() {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const recentOrders = allOrders.filter(order => {
+            const orderDate = new Date(order.createdAt);
+            return orderDate > thirtyDaysAgo;
+        });
+        
+        const clearedCount = allOrders.length - recentOrders.length;
+        if (clearedCount > 0) {
+            localStorage.setItem('bookings', JSON.stringify(recentOrders));
+            allOrders = recentOrders;
+            showNotification(`${clearedCount} old orders cleared successfully!`, 'success');
+            showClearOrdersButton();
+            filterAndDisplayOrders();
+        } else {
+            showNotification('No old orders to clear', 'info');
         }
     }
 
     // Show clear orders button if orders exist
     function showClearOrdersButton() {
-        const clearBtn = document.getElementById('clearOrdersBtn');
-        if (clearBtn && allOrders.length > 0) {
-            clearBtn.style.display = 'block';
-        } else if (clearBtn) {
-            clearBtn.style.display = 'none';
+        const clearDropdown = document.getElementById('clearOrdersDropdown');
+        if (clearDropdown && allOrders.length > 0) {
+            clearDropdown.style.display = 'block';
+        } else if (clearDropdown) {
+            clearDropdown.style.display = 'none';
         }
     }
 
-    // Make clearAllOrders globally accessible
+    // Make cleanup functions globally accessible
     window.clearAllOrders = clearAllOrders;
+    window.clearCompletedOrders = clearCompletedOrders;
+    window.clearOldOrders = clearOldOrders;
 
     function loadOrders() {
         // Load orders from localStorage
@@ -132,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showClearOrdersButton();
         filterAndDisplayOrders();
+        updateRealTimeStatus();
     }
 
     function filterAndDisplayOrders() {
