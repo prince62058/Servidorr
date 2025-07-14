@@ -593,10 +593,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const summaryDate = document.getElementById('summaryDate');
         const summaryTime = document.getElementById('summaryTime');
         const summaryDuration = document.getElementById('summaryDuration');
+        const summaryServiceImage = document.getElementById('summaryServiceImage');
         
         if (summaryService) summaryService.textContent = selectedService.name;
         if (summaryTotal) summaryTotal.textContent = `₹${selectedService.price}`;
         if (summaryDuration) summaryDuration.textContent = selectedService.duration || '1-2 hours';
+        if (summaryServiceImage) {
+            summaryServiceImage.src = selectedService.image;
+            summaryServiceImage.alt = selectedService.name;
+        }
         
         if (selectedDate && summaryDate) {
             const date = new Date(selectedDate);
@@ -634,26 +639,31 @@ document.addEventListener('DOMContentLoaded', function() {
         summaryDiv.innerHTML = `
             <div class="booking-summary-card">
                 <h5>Your Booking Details</h5>
-                <div class="summary-row">
-                    <span class="label">Service:</span>
-                    <span class="value">${selectedService.name}</span>
-                </div>
-                <div class="summary-row">
-                    <span class="label">Price:</span>
-                    <span class="value">₹${selectedService.price}</span>
-                </div>
-                ${selectedDate ? `
-                    <div class="summary-row">
-                        <span class="label">Date:</span>
-                        <span class="value">${new Date(selectedDate).toLocaleDateString('en-IN')}</span>
+                <div class="booking-service-info">
+                    <img src="${selectedService.image}" alt="${selectedService.name}" class="booking-service-image">
+                    <div class="booking-service-details">
+                        <div class="summary-row">
+                            <span class="label">Service:</span>
+                            <span class="value">${selectedService.name}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="label">Price:</span>
+                            <span class="value">₹${selectedService.price}</span>
+                        </div>
+                        ${selectedDate ? `
+                            <div class="summary-row">
+                                <span class="label">Date:</span>
+                                <span class="value">${new Date(selectedDate).toLocaleDateString('en-IN')}</span>
+                            </div>
+                        ` : ''}
+                        ${selectedTimeSlot ? `
+                            <div class="summary-row">
+                                <span class="label">Time:</span>
+                                <span class="value">${convertTo12Hour(selectedTimeSlot)}</span>
+                            </div>
+                        ` : ''}
                     </div>
-                ` : ''}
-                ${selectedTimeSlot ? `
-                    <div class="summary-row">
-                        <span class="label">Time:</span>
-                        <span class="value">${convertTo12Hour(selectedTimeSlot)}</span>
-                    </div>
-                ` : ''}
+                </div>
             </div>
         `;
     }
